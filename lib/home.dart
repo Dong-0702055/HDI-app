@@ -30,7 +30,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       leading: Padding(
         padding: EdgeInsets.only(left: 16),
-        child: Image.asset('assets/image/logo.png'),
+        child: Image.asset(
+          'assets/image/logo.png',
+          width: 200,
+          height: 200,
+          fit: BoxFit.contain,
+        ),
       ),
       actions: [
         TextButton.icon(
@@ -90,10 +95,12 @@ class ContainerHome extends StatelessWidget {
             ),
             items: imgList1
                 .map(
-                  (item) => Image.asset(
-                    item,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+                  (item) => Container(
+                    child: Image.asset(
+                      item,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   ),
                 )
                 .toList(),
@@ -147,7 +154,7 @@ class ContainerHome extends StatelessWidget {
                                       style: TextStyle(fontSize: 23),
                                     ),
                                     Text(
-                                      "Chăm sóc sức khỏe và tai nạn",
+                                      "Chăm sóc sức khoẻ và tai nạn",
                                       style: TextStyle(
                                         fontSize: 15,
                                         overflow: TextOverflow.ellipsis,
