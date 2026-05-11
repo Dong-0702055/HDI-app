@@ -1,32 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
-class Login extends StatelessWidget{
+
+class Login extends StatelessWidget {
   const Login({super.key});
   @override
   Widget build(BuildContext context) {
-      return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/image/bg_login.png"),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/image/bg_login.png"),
+          fit: BoxFit.cover,
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: HomeAppBar(),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                ContainerLogin(),
-              ],
-            ),
-          ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: HomeAppBar(),
+        body: SingleChildScrollView(
+          child: Column(children: [ContainerLogin()]),
         ),
-      );
+      ),
+    );
   }
 }
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
+
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
 
   @override
@@ -34,21 +32,21 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: IconButton(
-        icon: const Icon(Icons.format_list_bulleted, color: Color(0xFFBB8A0B),size: 30,),
+        icon: const Icon(
+          Icons.format_list_bulleted,
+          color: Color(0xFFBB8A0B),
+          size: 30,
+        ),
         onPressed: () {},
       ),
       actions: [
-          Padding(
-            padding: EdgeInsetsGeometry.only(right: 10),
-            // child: CircleAvatar(
-            //   backgroundImage: AssetImage("assets/covn.png"),
-            // ),
-            child: Image.asset(
-                "assets/image/covn.png",
-                height: 30,
-                width: 50,
-            ),
-          )
+        Padding(
+          padding: EdgeInsetsGeometry.only(right: 10),
+          // child: CircleAvatar(
+          //   backgroundImage: AssetImage("assets/covn.png"),
+          // ),
+          child: Image.asset("assets/image/covn.png", height: 30, width: 50),
+        ),
       ],
     );
   }
@@ -56,24 +54,24 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
 }
-class ContainerLogin extends StatelessWidget{
+
+class ContainerLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   return Container(
-     padding: EdgeInsets.all(20),
-     margin: EdgeInsets.only(top: 450),
+    return Container(
+      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(top: 400),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-              "Chào mừng bạn",
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-              ),
+            "Chào mừng bạn",
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           TextField(
             textAlignVertical: TextAlignVertical.center,
@@ -81,85 +79,94 @@ class ContainerLogin extends StatelessWidget{
               hintText: "Số điện thoại",
               prefixIcon: Icon(Icons.phone),
               hintStyle: TextStyle(
-                fontSize: 17, color: Colors.black.withOpacity(0.3)
+                fontSize: 17,
+                color: Colors.black.withOpacity(0.3),
               ),
               filled: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none
-              )
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
           SizedBox(height: 15),
           TextField(
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
-                hintText: "Mật khẩu",
-                prefixIcon: Icon(Icons.lock_outline),
-                suffixIcon: Icon(Icons.remove_red_eye_outlined),
-                hintStyle: TextStyle(
-                    fontSize: 17,
-                    color: Colors.black.withOpacity(0.3),
-                ),
-                filled: true,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none
-                )
+              hintText: "Mật khẩu",
+              prefixIcon: Icon(Icons.lock_outline),
+              suffixIcon: Icon(Icons.remove_red_eye_outlined),
+              hintStyle: TextStyle(
+                fontSize: 17,
+                color: Colors.black.withOpacity(0.3),
+              ),
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
           SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
-                  onPressed: (){
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context)=>const Home(),
-                      )
+                      MaterialPageRoute(builder: (context) => const Home()),
                     );
                   },
-                style: TextButton.styleFrom(
+                  style: TextButton.styleFrom(
                     backgroundColor: Color(0xFFBB8A0B),
-                    minimumSize: Size(300, 55),
+                    minimumSize: Size(0, 55),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    )
-                ),
-                  child: Text("Đăng nhập",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  child: Text(
+                    "Đăng nhập",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
               ),
+              SizedBox(width: 10),
               TextButton(
-                onPressed: (){},
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.white,
                   minimumSize: Size(55, 55),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  )
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-                child: Icon(Icons.face,
-                size: 30,
-                  color: Color(0xFFBB8A0B)
-                ),
+                child: Icon(Icons.face, size: 30, color: Color(0xFFBB8A0B)),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(onPressed: (){}, child: Text("Quên mật khẩu",style: TextStyle(fontSize: 18,color: Color(0xFFBB8A0B)))),
-              TextButton(onPressed: (){}, child: Text("Đăng kí tài khoản",style: TextStyle(fontSize: 18,color: Color(0xFFBB8A0B))))
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Quên mật khẩu",
+                  style: TextStyle(fontSize: 18, color: Color(0xFFBB8A0B)),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Đăng kí tài khoản",
+                  style: TextStyle(fontSize: 18, color: Color(0xFFBB8A0B)),
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
-   );
+    );
   }
-
 }
