@@ -8,7 +8,7 @@ class NguoiDuocBaoHiemScreen extends StatelessWidget {
   final String dateRange;
   final String people;
   final InsurancePackage selectedPackage;
-
+  final List<InsurancePackage> packages;
   const NguoiDuocBaoHiemScreen({
     super.key,
     required this.selectedPackage,
@@ -16,6 +16,7 @@ class NguoiDuocBaoHiemScreen extends StatelessWidget {
     required this.destination,
     required this.dateRange,
     required this.people,
+    required this.packages,
   });
 
   @override
@@ -72,37 +73,87 @@ class NguoiDuocBaoHiemScreen extends StatelessWidget {
             ),
 
             /// ================= STEP =================
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            Container(
+              color: Colors.white,
 
-              child: Row(
-                children: [
-                  buildStep(
-                    number: "1",
-                    title: "Chọn gói\nsức khỏe",
-                    active: true,
-                  ),
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 14,
+                bottom: 10,
+              ),
 
-                  buildLine(),
+              child: SizedBox(
+                height: 72,
 
-                  buildStep(
-                    number: "2",
-                    title: "Người được\nbảo hiểm",
-                    active: true,
-                  ),
+                child: Stack(
+                  alignment: Alignment.topCenter,
 
-                  buildLine(),
+                  children: [
+                    /// LINE FULL
+                    Positioned(
+                      top: 11,
 
-                  buildStep(
-                    number: "3",
-                    title: "Xác nhận\nthông tin",
-                    active: false,
-                  ),
+                      left: 28,
+                      right: 28,
 
-                  buildLine(),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
 
-                  buildStep(number: "4", title: "Thanh toán", active: false),
-                ],
+                            child: Container(
+                              height: 3,
+                              color: const Color(0xff1B7D32),
+                            ),
+                          ),
+
+                          Expanded(
+                            flex: 2,
+
+                            child: Container(
+                              height: 3,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /// STEP ITEM
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children: [
+                        buildStep(
+                          number: "1",
+                          title: "Chọn gói\nsức khỏe",
+                          active: true,
+                        ),
+
+                        buildStep(
+                          number: "2",
+                          title: "Người được\nbảo hiểm",
+                          active: true,
+                        ),
+
+                        buildStep(
+                          number: "3",
+                          title: "Xác nhận\nthông tin",
+                          active: false,
+                        ),
+
+                        buildStep(
+                          number: "4",
+                          title: "Thanh toán",
+                          active: false,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -153,6 +204,7 @@ class NguoiDuocBaoHiemScreen extends StatelessWidget {
 
                               dateRange: dateRange,
                               people: people,
+                              packages: packages,
                             ),
                           ),
                         );
@@ -267,57 +319,57 @@ class NguoiDuocBaoHiemScreen extends StatelessWidget {
     required String title,
     required bool active,
   }) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 10,
+    return SizedBox(
+      width: 74,
 
-          backgroundColor: active
-              ? const Color(0xff2F7D32)
-              : Colors.grey.shade300,
+      child: Column(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
 
-          child: Text(
-            number,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
 
-            style: TextStyle(
-              color: active ? Colors.white : Colors.grey,
+              color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
 
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
+              border: Border.all(
+                color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
+              ),
+            ),
+
+            child: Center(
+              child: Text(
+                number,
+
+                style: TextStyle(
+                  color: active ? Colors.white : Colors.grey.shade600,
+
+                  fontWeight: FontWeight.w600,
+
+                  fontSize: 12,
+                ),
+              ),
             ),
           ),
-        ),
 
-        const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
-        SizedBox(
-          width: 55,
-
-          child: Text(
+          Text(
             title,
 
             textAlign: TextAlign.center,
 
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 11,
+              height: 1.3,
 
-              color: active ? Colors.black : Colors.grey,
+              fontWeight: FontWeight.w500,
+
+              color: active ? Colors.black87 : Colors.grey,
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  /// ================= LINE =================
-  Widget buildLine() {
-    return Expanded(
-      child: Container(
-        height: 2,
-
-        margin: const EdgeInsets.only(bottom: 28),
-
-        color: const Color(0xff2F7D32),
+        ],
       ),
     );
   }

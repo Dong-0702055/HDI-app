@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:my_hdi/AMH105/07.dart';
 
 class InsuredPerson {
   String name;
@@ -36,7 +37,7 @@ class _DanhSachNguoiBHScreenState extends State<DanhSachNguoiBHScreen> {
 
   String selectedDate = "";
 
-  bool isChecked = true;
+  bool isChecked = false;
 
   late List<InsuredPerson?> persons;
 
@@ -45,13 +46,12 @@ class _DanhSachNguoiBHScreenState extends State<DanhSachNguoiBHScreen> {
     super.initState();
 
     /// sinh sẵn số card trống
-    persons = List.generate(widget.people, (index) {
-      if (index < widget.initialPersons.length) {
-        return widget.initialPersons[index];
-      }
+    persons = List<InsuredPerson?>.from(widget.initialPersons);
 
-      return null;
-    });
+    while (persons.length < widget.people) {
+      persons.add(null);
+    }
+    isChecked = persons.any((e) => e?.isBuyer == true);
   }
 
   bool get hasDiscount => persons.length >= 5;
@@ -168,7 +168,7 @@ class _DanhSachNguoiBHScreenState extends State<DanhSachNguoiBHScreen> {
                           child: person == null
                               ? buildEmptyCard(
                                   () {
-                                    showInputDialog(editIndex: index);
+                                    showSelectInputMethod(editIndex: index);
                                   },
 
                                   onDelete: () {
@@ -181,7 +181,7 @@ class _DanhSachNguoiBHScreenState extends State<DanhSachNguoiBHScreen> {
                                   person: person,
 
                                   onEdit: () {
-                                    showInputDialog(editIndex: index);
+                                    showSelectInputMethod(editIndex: index);
                                   },
 
                                   onDelete: () {
@@ -639,6 +639,163 @@ class _DanhSachNguoiBHScreenState extends State<DanhSachNguoiBHScreen> {
       },
     );
   }
+
+  void showSelectInputMethod({required int editIndex}) {
+    showModalBottomSheet(
+      context: context,
+
+      backgroundColor: Colors.white,
+
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+
+            children: [
+              /// LINE
+              Container(
+                width: 60,
+                height: 5,
+
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+
+              const SizedBox(height: 18),
+
+              /// HEADER
+              Row(
+                children: [
+                  const Expanded(
+                    child: Center(
+                      child: Text(
+                        "Lựa chọn thêm thông tin người",
+
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+
+                    child: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              /// CHỤP ẢNH
+              GestureDetector(
+                onTap: () async {
+                  Navigator.pop(context);
+
+                  final result = await Navigator.push(
+                    context,
+
+                    MaterialPageRoute(builder: (_) => const CameraCmndScreen()),
+                  );
+
+                  if (result != null) {
+                    setState(() {
+                      persons[editIndex] = InsuredPerson(
+                        name: result["name"] ?? "",
+
+                        birth: result["birth"] ?? "",
+
+                        cccd: result["cccd"] ?? "",
+
+                        isBuyer: persons[editIndex]?.isBuyer ?? false,
+                      );
+                    });
+                  }
+                },
+
+                child: buildUploadBox(
+                  icon: "assets/image/105/camera.png",
+
+                  title: "Chụp ảnh CMND/CCCD/Hộ chiếu",
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              /// NHẬP TAY
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+
+                  showInputDialog(editIndex: editIndex);
+                },
+
+                child: buildUploadBox(
+                  icon: "assets/image/105/edit.png",
+
+                  title: "Hoặc nhập tay",
+
+                  hasArrow: true,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildUploadBox({
+    required String icon,
+    required String title,
+    bool hasArrow = false,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+
+        border: Border.all(
+          color: const Color(0xff8DB38B),
+          style: BorderStyle.solid,
+        ),
+      ),
+
+      child: Row(
+        children: [
+          Image.asset(icon, width: 24, height: 24),
+
+          const SizedBox(width: 12),
+
+          Expanded(
+            child: Text(
+              title,
+
+              style: const TextStyle(fontSize: 14, color: Color(0xff4B4B4B)),
+            ),
+          ),
+
+          if (hasArrow) const Icon(Icons.arrow_forward, color: Colors.black54),
+        ],
+      ),
+    );
+  }
 }
 
 /// INPUT FIELD
@@ -728,14 +885,12 @@ Widget buildPersonCard({
   return Stack(
     children: [
       Container(
-        margin: const EdgeInsets.only(top: 2),
-
         padding: const EdgeInsets.all(14),
 
         decoration: BoxDecoration(
           color: Colors.white,
 
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
 
           boxShadow: [
             BoxShadow(blurRadius: 8, color: Colors.black.withOpacity(0.04)),
@@ -748,44 +903,56 @@ Widget buildPersonCard({
           children: [
             /// HỌ TÊN
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+
               children: [
                 SizedBox(
-                  width: 85,
+                  width: 120,
 
                   child: Text(
                     "Họ tên:",
 
-                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
                   ),
                 ),
 
-                Expanded(
-                  child: Text(
-                    person.name,
+                Flexible(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
 
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: Colors.black87,
-                    ),
+                    children: [
+                      Flexible(
+                        child: Text(
+                          person.name,
+
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.black87,
+                          ),
+
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+
+                      const SizedBox(width: 6),
+
+                      GestureDetector(
+                        onTap: onEdit,
+
+                        child: Image.asset(
+                          "assets/image/105/sua.png",
+                          width: 18,
+                          height: 18,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-
-                GestureDetector(
-                  onTap: onEdit,
-
-                  child: const Icon(
-                    Icons.edit_outlined,
-                    size: 18,
-                    color: Color(0xffC69214),
-                  ),
-                ),
-
-                if (person.isBuyer) const SizedBox(width: 36),
               ],
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
             /// NGÀY SINH
             Row(
@@ -793,12 +960,12 @@ Widget buildPersonCard({
 
               children: [
                 SizedBox(
-                  width: 85,
+                  width: 120,
 
                   child: Text(
                     "Ngày sinh:",
 
-                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
                   ),
                 ),
 
@@ -807,16 +974,15 @@ Widget buildPersonCard({
                     person.birth,
 
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
                     ),
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
             /// CCCD
             Row(
@@ -824,12 +990,12 @@ Widget buildPersonCard({
 
               children: [
                 SizedBox(
-                  width: 85,
+                  width: 120,
 
                   child: Text(
                     "CMND/CCCD/\nHộ chiếu:",
 
-                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
                   ),
                 ),
 
@@ -838,62 +1004,48 @@ Widget buildPersonCard({
                     person.cccd,
 
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
                     ),
                   ),
                 ),
               ],
             ),
 
-            if (!person.isBuyer)
-              Align(
-                alignment: Alignment.centerRight,
+            const SizedBox(height: 8),
 
-                child: GestureDetector(
-                  onTap: onDelete,
+            /// XÓA
+            Align(
+              alignment: Alignment.centerRight,
 
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: onDelete,
 
-                    child: Text(
-                      "Xóa",
+                child: Text(
+                  "Xóa",
 
-                      style: TextStyle(
-                        color: Colors.red.shade400,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                  style: TextStyle(
+                    color: Colors.red.shade400,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
                   ),
                 ),
               ),
+            ),
           ],
         ),
       ),
 
-      /// TICK VÀNG
+      /// TICK GÓC PHẢI
       if (person.isBuyer)
         Positioned(
           top: 0,
           right: 0,
 
-          child: Container(
-            width: 34,
-            height: 34,
-
-            decoration: const BoxDecoration(
-              color: Color(0xffC69214),
-
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-              ),
-            ),
-
-            child: const Center(
-              child: Icon(Icons.check, color: Colors.white, size: 18),
-            ),
+          child: Image.asset(
+            "assets/image/105/tick.png",
+            width: 42,
+            height: 42,
           ),
         ),
     ],
@@ -908,7 +1060,7 @@ Widget buildEmptyCard(VoidCallback onTap, {required VoidCallback onDelete}) {
     decoration: BoxDecoration(
       color: Colors.white,
 
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(14),
 
       boxShadow: [
         BoxShadow(blurRadius: 8, color: Colors.black.withOpacity(0.04)),
@@ -919,13 +1071,18 @@ Widget buildEmptyCard(VoidCallback onTap, {required VoidCallback onDelete}) {
       crossAxisAlignment: CrossAxisAlignment.start,
 
       children: [
+        /// HỌ TÊN
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+
           children: [
-            const Expanded(
+            SizedBox(
+              width: 120,
+
               child: Text(
                 "Họ tên:",
 
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
               ),
             ),
 
@@ -933,59 +1090,106 @@ Widget buildEmptyCard(VoidCallback onTap, {required VoidCallback onDelete}) {
               onTap: onTap,
 
               child: Row(
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Nhập thông tin",
 
                     style: TextStyle(
                       color: Color(0xffC69214),
-
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
                     ),
                   ),
 
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
 
-                  Icon(Icons.edit_outlined, size: 18, color: Color(0xffC69214)),
+                  Image.asset(
+                    "assets/image/105/sua.png",
+                    width: 18,
+                    height: 18,
+                  ),
                 ],
               ),
             ),
           ],
         ),
 
-        const SizedBox(height: 10),
+        const SizedBox(height: 14),
 
-        const Text(
-          "Ngày sinh: /",
+        /// NGÀY SINH
+        Row(
+          children: [
+            SizedBox(
+              width: 120,
 
-          style: TextStyle(color: Colors.grey, fontSize: 12),
+              child: Text(
+                "Ngày sinh:",
+
+                style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+              ),
+            ),
+
+            const Text(
+              "/",
+
+              style: TextStyle(
+                color: Color(0xffC69214),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
 
-        const SizedBox(height: 10),
+        const SizedBox(height: 14),
 
-        const Text(
-          "CMND/CCCD/\nHộ chiếu: /",
+        /// CCCD
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
 
-          style: TextStyle(color: Colors.grey, fontSize: 12),
+          children: [
+            SizedBox(
+              width: 120,
+
+              child: Text(
+                "CMND/CCCD/\nHộ chiếu:",
+
+                style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+              ),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.only(top: 2),
+
+              child: Text(
+                "/",
+
+                style: TextStyle(
+                  color: Color(0xffC69214),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
 
+        const SizedBox(height: 8),
+
+        /// XÓA
         Align(
           alignment: Alignment.centerRight,
 
           child: GestureDetector(
             onTap: onDelete,
 
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              "Xóa",
 
-              child: Text(
-                "Xóa",
-
-                style: TextStyle(
-                  color: Colors.red.shade400,
-
-                  fontWeight: FontWeight.w500,
-                ),
+              style: TextStyle(
+                color: Colors.red.shade400,
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
               ),
             ),
           ),

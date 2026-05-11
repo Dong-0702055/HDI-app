@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class KetQuaGiaoDichScreen extends StatelessWidget {
-  const KetQuaGiaoDichScreen({super.key});
+  final String buyerName;
+
+  const KetQuaGiaoDichScreen({super.key, required this.buyerName});
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +70,8 @@ class KetQuaGiaoDichScreen extends StatelessWidget {
 
                         const SizedBox(height: 16),
 
-                        const Text(
-                          "Chào mừng ông Đinh Duy Tùng\nđã tham gia Bảo hiểm HDI",
+                        Text(
+                          "Chào mừng ông $buyerName\nđã tham gia Bảo hiểm HDI",
 
                           textAlign: TextAlign.center,
 

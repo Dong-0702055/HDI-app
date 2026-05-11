@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:my_hdi/AMH105/01.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -353,7 +354,14 @@ class ContainerHome extends StatelessWidget {
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(top: 30),
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Screen01(),
+                                ),
+                              );
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(

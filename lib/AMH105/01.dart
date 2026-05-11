@@ -23,9 +23,7 @@ class _Screen01State extends State<Screen01> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              /// =========================
               /// LABEL 1 : BANNER
-              /// =========================
               Stack(
                 children: [
                   SizedBox(
@@ -92,9 +90,7 @@ class _Screen01State extends State<Screen01> {
                 ],
               ),
 
-              /// =========================
               /// LABEL 2 : CARD INFO
-              /// =========================
               Transform.translate(
                 offset: const Offset(0, -20),
 
@@ -607,9 +603,7 @@ class _Screen01State extends State<Screen01> {
                 ),
               ),
 
-              /// =========================
               /// LABEL 3 : BUTTONS
-              /// =========================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
 
@@ -989,9 +983,7 @@ class _Screen01State extends State<Screen01> {
 
               const SizedBox(height: 30),
 
-              /// =========================
               /// LABEL 4 : BUTTON
-              /// =========================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
 

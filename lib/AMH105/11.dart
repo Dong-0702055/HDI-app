@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import '09.dart';
 import '12.dart';
 import '08.dart';
+import '05.dart';
+import 'insurance_package.dart';
 
-class ThanhToanScreen extends StatelessWidget {
+class ThanhToanScreen extends StatefulWidget {
   final String buyerName;
   final String buyerBirth;
   final String buyerCccd;
@@ -12,6 +14,10 @@ class ThanhToanScreen extends StatelessWidget {
 
   final List<InsuredPerson> insuredPersons;
   final dynamic selectedPackage;
+  final List<InsurancePackage> packages;
+
+  final String destination;
+  final String dateRange;
 
   const ThanhToanScreen({
     super.key,
@@ -22,7 +28,47 @@ class ThanhToanScreen extends StatelessWidget {
     required this.buyerEmail,
     required this.insuredPersons,
     required this.selectedPackage,
+    required this.destination,
+    required this.dateRange,
+    required this.packages,
   });
+
+  @override
+  State<ThanhToanScreen> createState() => _ThanhToanScreenState();
+}
+
+class _ThanhToanScreenState extends State<ThanhToanScreen> {
+  late String buyerName;
+  late String buyerBirth;
+  late String buyerCccd;
+  late String buyerPhone;
+  late String buyerEmail;
+
+  late List<InsuredPerson> insuredPersons;
+
+  late dynamic selectedPackage;
+  late List<InsurancePackage> allPackages;
+  late String destination;
+  late String dateRange;
+
+  @override
+  void initState() {
+    super.initState();
+
+    buyerName = widget.buyerName;
+    buyerBirth = widget.buyerBirth;
+    buyerCccd = widget.buyerCccd;
+    buyerPhone = widget.buyerPhone;
+    buyerEmail = widget.buyerEmail;
+
+    insuredPersons = List<InsuredPerson>.from(widget.insuredPersons);
+
+    selectedPackage = widget.selectedPackage;
+    allPackages = widget.packages;
+
+    destination = widget.destination;
+    dateRange = widget.dateRange;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,24 +126,66 @@ class ThanhToanScreen extends StatelessWidget {
             Container(
               color: Colors.white,
 
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 14,
+                bottom: 10,
+              ),
 
-              child: Row(
-                children: [
-                  buildStep("1", "Chọn gói\nsức khỏe", true),
+              child: SizedBox(
+                height: 72,
 
-                  buildLine(),
+                child: Stack(
+                  alignment: Alignment.topCenter,
 
-                  buildStep("2", "Người được\nbảo hiểm", true),
+                  children: [
+                    /// LINE FULL
+                    Positioned(
+                      top: 11,
 
-                  buildLine(),
+                      left: 28,
+                      right: 28,
 
-                  buildStep("3", "Xác nhận\nthông tin", true),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
 
-                  buildLine(),
+                            child: Container(
+                              height: 3,
+                              color: const Color(0xff1B7D32),
+                            ),
+                          ),
 
-                  buildStep("4", "Thanh toán", true),
-                ],
+                          Expanded(
+                            child: Container(
+                              height: 3,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /// STEP ITEM
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children: [
+                        buildStep("1", "Chọn gói\nsức khỏe", true),
+
+                        buildStep("2", "Người được\nbảo hiểm", true),
+
+                        buildStep("3", "Xác nhận\nthông tin", true),
+
+                        buildStep("4", "Thanh toán", false),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -108,78 +196,7 @@ class ThanhToanScreen extends StatelessWidget {
 
                   child: Column(
                     children: [
-                      /// PACKAGE
-                      buildSection(
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 58,
-                              height: 58,
-
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-
-                                color: Colors.grey.shade100,
-                              ),
-
-                              child: Padding(
-                                padding: const EdgeInsets.all(6),
-
-                                child: Image.asset(
-                                  "assets/image/105/105_bh_3.png",
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(width: 12),
-
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-
-                                children: [
-                                  const Text(
-                                    "Bảo hiểm Du lịch Quốc tế",
-
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-
-                                      fontSize: 14,
-                                    ),
-                                  ),
-
-                                  const SizedBox(height: 4),
-
-                                  const Text(
-                                    "Gói Cao Cấp",
-
-                                    style: TextStyle(
-                                      color: Color(0xffC69214),
-
-                                      fontSize: 13,
-                                    ),
-                                  ),
-
-                                  const SizedBox(height: 4),
-
-                                  Text(
-                                    "12.595.000 VNĐ/chuyến",
-
-                                    style: TextStyle(
-                                      color: Colors.red.shade400,
-
-                                      fontWeight: FontWeight.w600,
-
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      buildPackageCard(),
 
                       const SizedBox(height: 12),
 
@@ -188,34 +205,69 @@ class ThanhToanScreen extends StatelessWidget {
                         title: "Thông tin chuyến đi",
 
                         onEdit: () async {
-                          await Navigator.push(
+                          final result = await Navigator.push(
                             context,
+
                             MaterialPageRoute(
                               builder: (_) => XacNhanThongTinScreen(
-                                destination: "Hàn Quốc, Hà Lan, Việt Nam",
+                                destination: destination,
 
-                                dateRange: "10 ngày (28/12/2023 - 28/01/2024)",
+                                dateRange: dateRange,
 
                                 people: insuredPersons.length.toString(),
 
                                 selectedPackage: selectedPackage,
+                                packages: allPackages,
+
+                                buyerName: buyerName,
+                                buyerBirth: buyerBirth,
+                                buyerCccd: buyerCccd,
+                                buyerPhone: buyerPhone,
+                                buyerEmail: buyerEmail,
+
+                                initialPersons: insuredPersons,
+
+                                isEditMode: true,
                               ),
                             ),
                           );
+
+                          if (result != null) {
+                            setState(() {
+                              buyerName = result["buyerName"];
+                              buyerBirth = result["buyerBirth"];
+                              buyerCccd = result["buyerCccd"];
+                              buyerPhone = result["buyerPhone"];
+                              buyerEmail = result["buyerEmail"];
+
+                              insuredPersons = List<InsuredPerson>.from(
+                                result["insuredPersons"],
+                              );
+
+                              destination = result["destination"];
+                              dateRange = result["dateRange"];
+
+                              /// UPDATE BUYER TRONG DS NGƯỜI BH
+                              int buyerIndex = insuredPersons.indexWhere(
+                                (e) => e.isBuyer,
+                              );
+
+                              if (buyerIndex != -1) {
+                                insuredPersons[buyerIndex] = InsuredPerson(
+                                  name: buyerName,
+                                  birth: buyerBirth,
+                                  cccd: buyerCccd,
+                                  isBuyer: true,
+                                );
+                              }
+                            });
+                          }
                         },
 
                         children: [
-                          buildInfoRow(
-                            "Điểm đến:",
-                            "Hàn Quốc, Hà Lan, Việt Nam",
-                          ),
+                          buildInfoRow("Điểm đến:", destination),
 
-                          buildInfoRow(
-                            "Thời gian:",
-                            "10 ngày (28/12/2023 - 28/01/2024)",
-                          ),
-
-                          buildInfoRow("Ngày về:", "28/10/2023"),
+                          buildInfoRow("Thời gian:", dateRange),
                         ],
                       ),
 
@@ -226,20 +278,62 @@ class ThanhToanScreen extends StatelessWidget {
                         title: "Bên mua bảo hiểm",
 
                         onEdit: () async {
-                          await Navigator.push(
+                          final result = await Navigator.push(
                             context,
+
                             MaterialPageRoute(
                               builder: (_) => XacNhanThongTinScreen(
-                                destination: "Hàn Quốc, Hà Lan, Việt Nam",
+                                destination: destination,
 
-                                dateRange: "10 ngày (28/12/2023 - 28/01/2024)",
+                                dateRange: dateRange,
 
                                 people: insuredPersons.length.toString(),
 
                                 selectedPackage: selectedPackage,
+                                packages: allPackages,
+                                buyerName: buyerName,
+                                buyerBirth: buyerBirth,
+                                buyerCccd: buyerCccd,
+                                buyerPhone: buyerPhone,
+                                buyerEmail: buyerEmail,
+
+                                initialPersons: insuredPersons,
+
+                                isEditMode: true,
                               ),
                             ),
                           );
+
+                          if (result != null) {
+                            setState(() {
+                              buyerName = result["buyerName"];
+                              buyerBirth = result["buyerBirth"];
+                              buyerCccd = result["buyerCccd"];
+                              buyerPhone = result["buyerPhone"];
+                              buyerEmail = result["buyerEmail"];
+
+                              insuredPersons = List<InsuredPerson>.from(
+                                result["insuredPersons"],
+                              );
+
+                              destination = result["destination"];
+                              dateRange = result["dateRange"];
+
+                              /// UPDATE BUYER TRONG DS NGƯỜI BH
+                              int buyerIndex = insuredPersons.indexWhere(
+                                (e) => e.isBuyer,
+                              );
+
+                              if (buyerIndex != -1) {
+                                insuredPersons[buyerIndex] = InsuredPerson(
+                                  name: buyerName,
+                                  birth: buyerBirth,
+                                  cccd: buyerCccd,
+                                  isBuyer: true,
+                                );
+                              }
+                            });
+                          }
                         },
 
                         children: [
@@ -247,7 +341,7 @@ class ThanhToanScreen extends StatelessWidget {
 
                           buildInfoRow("Ngày sinh:", buyerBirth),
 
-                          buildInfoRow("CMND/CCCD/Hộ Chiếu:", buyerCccd),
+                          buildInfoRow("CMND/CCCD/Hộ chiếu:", buyerCccd),
 
                           buildInfoRow("Số điện thoại:", buyerPhone),
 
@@ -260,16 +354,44 @@ class ThanhToanScreen extends StatelessWidget {
                       /// DS NGƯỜI BH
                       buildInfoSection(
                         title: "Người được bảo hiểm (${insuredPersons.length})",
+
                         onEdit: () async {
-                          await Navigator.push(
+                          final result = await Navigator.push(
                             context,
+
                             MaterialPageRoute(
                               builder: (_) => DanhSachNguoiBHScreen(
                                 people: insuredPersons.length,
+
                                 initialPersons: insuredPersons,
                               ),
                             ),
                           );
+
+                          if (result != null) {
+                            setState(() {
+                              insuredPersons = List<InsuredPerson>.from(
+                                result["persons"],
+                              );
+
+                              /// TÌM BUYER TRONG DS
+                              final buyer = insuredPersons.firstWhere(
+                                (e) => e.isBuyer,
+                                orElse: () => InsuredPerson(
+                                  name: "",
+                                  birth: "",
+                                  cccd: "",
+                                ),
+                              );
+
+                              /// UPDATE FORM BÊN MUA
+                              if (buyer.name.isNotEmpty) {
+                                buyerName = buyer.name;
+                                buyerBirth = buyer.birth;
+                                buyerCccd = buyer.cccd;
+                              }
+                            });
+                          }
                         },
 
                         children: insuredPersons
@@ -307,8 +429,10 @@ class ThanhToanScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
+
                       MaterialPageRoute(
-                        builder: (_) => const KetQuaGiaoDichScreen(),
+                        builder: (_) =>
+                            KetQuaGiaoDichScreen(buyerName: buyerName),
                       ),
                     );
                   },
@@ -356,6 +480,144 @@ class ThanhToanScreen extends StatelessWidget {
       ),
 
       child: child,
+    );
+  }
+
+  Widget buildPackageCard() {
+    String iconPath = "assets/image/105/105_bh_3.png";
+
+    if (selectedPackage.title.contains("Phổ thông")) {
+      iconPath = "assets/image/105/105_bh_2.png";
+    } else if (selectedPackage.title.contains("Thượng Hạng")) {
+      iconPath = "assets/image/105/105_bh_4.png";
+    }
+
+    return Container(
+      width: double.infinity,
+
+      padding: const EdgeInsets.all(14),
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+
+        borderRadius: BorderRadius.circular(14),
+
+        boxShadow: [
+          BoxShadow(blurRadius: 8, color: Colors.black.withOpacity(0.04)),
+        ],
+      ),
+
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+              /// ICON
+              Container(
+                width: 80,
+                height: 80,
+
+                padding: const EdgeInsets.all(6),
+
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+
+                  color: const Color(0xffF5F5F5),
+                ),
+
+                child: Image.asset(iconPath, fit: BoxFit.contain),
+              ),
+
+              const SizedBox(width: 12),
+
+              /// INFO
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  children: [
+                    const Text(
+                      "Bảo hiểm du lịch Quốc tế",
+
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff1B5E20),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "x1 ${selectedPackage.title}",
+
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+
+                              MaterialPageRoute(
+                                builder: (_) => ChiTietGoiScreen(
+                                  selectedPackage: selectedPackage,
+
+                                  packages: allPackages,
+
+                                  destination: destination,
+                                  date: dateRange,
+                                  people: insuredPersons.length.toString(),
+
+                                  isViewOnly: true,
+                                ),
+                              ),
+                            );
+                          },
+
+                          child: const Text(
+                            "Chi tiết quyền lợi",
+
+                            style: TextStyle(
+                              color: Color(0xffC69214),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      "${selectedPackage.price}",
+
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 14),
+
+          Divider(color: Colors.grey.shade300, height: 1),
+        ],
+      ),
     );
   }
 
@@ -477,56 +739,53 @@ class ThanhToanScreen extends StatelessWidget {
   }
 
   Widget buildStep(String number, String title, bool active) {
-    return Column(
-      children: [
-        Container(
-          width: 22,
-          height: 22,
+    return SizedBox(
+      width: 72,
 
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
+      child: Column(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
 
-            color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
-          ),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
 
-          child: Center(
-            child: Text(
-              number,
+              color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
+            ),
 
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+            child: Center(
+              child: Text(
+                number,
+
+                style: TextStyle(
+                  color: active ? Colors.white : Colors.grey.shade600,
+
+                  fontWeight: FontWeight.w600,
+
+                  fontSize: 12,
+                ),
               ),
             ),
           ),
-        ),
 
-        const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
-        SizedBox(
-          width: 70,
-
-          child: Text(
+          Text(
             title,
 
             textAlign: TextAlign.center,
 
-            style: const TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: 11,
+              height: 1.35,
+
+              fontWeight: FontWeight.w500,
+
+              color: active ? Colors.black87 : Colors.grey,
+            ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildLine() {
-    return Expanded(
-      child: Container(
-        height: 2,
-
-        margin: const EdgeInsets.only(bottom: 28),
-
-        color: const Color(0xff1B7D32),
+        ],
       ),
     );
   }

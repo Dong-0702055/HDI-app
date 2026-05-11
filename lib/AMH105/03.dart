@@ -359,7 +359,7 @@ class _GoiBaoHiemScreenState extends State<GoiBaoHiemScreen> {
                         children: [
                           packageCard(
                             index: 0,
-                            bg: "assets/image/105/đồng.png",
+                            bg: "assets/image/105/dong.png",
 
                             icon: "assets/image/105/105_bh_2.png",
 
@@ -374,7 +374,7 @@ class _GoiBaoHiemScreenState extends State<GoiBaoHiemScreen> {
 
                           packageCard(
                             index: 1,
-                            bg: "assets/image/105/bạc.png",
+                            bg: "assets/image/105/bac.png",
 
                             icon: "assets/image/105/105_bh_3.png",
 
@@ -389,7 +389,7 @@ class _GoiBaoHiemScreenState extends State<GoiBaoHiemScreen> {
 
                           packageCard(
                             index: 2,
-                            bg: "assets/image/105/Vàng.png",
+                            bg: "assets/image/105/vang.png",
 
                             icon: "assets/image/105/105_bh_4.png",
 

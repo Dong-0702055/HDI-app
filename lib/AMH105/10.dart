@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_hdi/AMH105/11.dart';
 import '09.dart';
-import '11.dart';
+import 'insurance_package.dart';
 
 class CamKetThanhToanScreen extends StatefulWidget {
   final String buyerName;
@@ -12,6 +12,9 @@ class CamKetThanhToanScreen extends StatefulWidget {
 
   final List<InsuredPerson> insuredPersons;
   final dynamic selectedPackage;
+  final List<InsurancePackage> packages;
+  final String destination;
+  final String dateRange;
 
   const CamKetThanhToanScreen({
     super.key,
@@ -22,6 +25,9 @@ class CamKetThanhToanScreen extends StatefulWidget {
     required this.buyerEmail,
     required this.insuredPersons,
     required this.selectedPackage,
+    required this.destination,
+    required this.dateRange,
+    required this.packages,
   });
 
   @override
@@ -90,36 +96,82 @@ class _CamKetThanhToanScreenState extends State<CamKetThanhToanScreen> {
             Container(
               color: Colors.white,
 
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 14,
+                bottom: 10,
+              ),
 
-              child: Row(
-                children: [
-                  buildStep(
-                    number: "1",
-                    title: "Chọn gói\nsức khỏe",
-                    active: true,
-                  ),
+              child: SizedBox(
+                height: 72,
 
-                  buildLine(),
+                child: Stack(
+                  alignment: Alignment.topCenter,
 
-                  buildStep(
-                    number: "2",
-                    title: "Người được\nbảo hiểm",
-                    active: true,
-                  ),
+                  children: [
+                    /// LINE FULL
+                    Positioned(
+                      top: 11,
 
-                  buildLine(),
+                      left: 28,
+                      right: 28,
 
-                  buildStep(
-                    number: "3",
-                    title: "Xác nhận\nthông tin",
-                    active: true,
-                  ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
 
-                  buildLine(inactive: true),
+                            child: Container(
+                              height: 3,
+                              color: const Color(0xff1B7D32),
+                            ),
+                          ),
 
-                  buildStep(number: "4", title: "Thanh toán", active: false),
-                ],
+                          Expanded(
+                            child: Container(
+                              height: 3,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /// STEP ITEM
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children: [
+                        buildStep(
+                          number: "1",
+                          title: "Chọn gói\nsức khỏe",
+                          active: true,
+                        ),
+
+                        buildStep(
+                          number: "2",
+                          title: "Người được\nbảo hiểm",
+                          active: true,
+                        ),
+
+                        buildStep(
+                          number: "3",
+                          title: "Xác nhận\nthông tin",
+                          active: true,
+                        ),
+
+                        buildStep(
+                          number: "4",
+                          title: "Thanh toán",
+                          active: false,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -350,6 +402,9 @@ class _CamKetThanhToanScreenState extends State<CamKetThanhToanScreen> {
                           buyerEmail: widget.buyerEmail,
                           insuredPersons: widget.insuredPersons,
                           selectedPackage: widget.selectedPackage,
+                          packages: widget.packages,
+                          destination: widget.destination,
+                          dateRange: widget.dateRange,
                         ),
                       ),
                     );
@@ -425,62 +480,57 @@ class _CamKetThanhToanScreenState extends State<CamKetThanhToanScreen> {
     required String title,
     required bool active,
   }) {
-    return Column(
-      children: [
-        Container(
-          width: 22,
-          height: 22,
+    return SizedBox(
+      width: 74,
 
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
+      child: Column(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
 
-            color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
-          ),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
 
-          child: Center(
-            child: Text(
-              number,
+              color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
 
-              style: TextStyle(
-                color: active ? Colors.white : Colors.grey.shade600,
+              border: Border.all(
+                color: active ? const Color(0xff1B7D32) : Colors.grey.shade300,
+              ),
+            ),
 
-                fontWeight: FontWeight.bold,
+            child: Center(
+              child: Text(
+                number,
 
-                fontSize: 12,
+                style: TextStyle(
+                  color: active ? Colors.white : Colors.grey.shade600,
+
+                  fontWeight: FontWeight.w600,
+
+                  fontSize: 12,
+                ),
               ),
             ),
           ),
-        ),
 
-        const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
-        SizedBox(
-          width: 70,
-
-          child: Text(
+          Text(
             title,
 
             textAlign: TextAlign.center,
 
             style: TextStyle(
               fontSize: 11,
+              height: 1.3,
 
-              color: active ? Colors.black : Colors.grey,
+              fontWeight: FontWeight.w500,
+
+              color: active ? Colors.black87 : Colors.grey,
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildLine({bool inactive = false}) {
-    return Expanded(
-      child: Container(
-        height: 2,
-
-        margin: const EdgeInsets.only(bottom: 28),
-
-        color: inactive ? Colors.grey.shade300 : const Color(0xff1B7D32),
+        ],
       ),
     );
   }

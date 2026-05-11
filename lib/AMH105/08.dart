@@ -11,6 +11,15 @@ class XacNhanThongTinScreen extends StatefulWidget {
   final String dateRange;
   final String people;
   final InsurancePackage selectedPackage;
+  final List<InsurancePackage> packages;
+  final String? buyerName;
+  final String? buyerBirth;
+  final String? buyerCccd;
+  final String? buyerPhone;
+  final String? buyerEmail;
+
+  final List<InsuredPerson>? initialPersons;
+  final bool isEditMode;
 
   const XacNhanThongTinScreen({
     super.key,
@@ -18,6 +27,14 @@ class XacNhanThongTinScreen extends StatefulWidget {
     required this.destination,
     required this.people,
     required this.dateRange,
+    this.buyerName,
+    this.buyerBirth,
+    this.buyerCccd,
+    this.buyerPhone,
+    this.buyerEmail,
+    this.initialPersons,
+    this.isEditMode = false,
+    required this.packages,
   });
 
   @override
@@ -26,7 +43,7 @@ class XacNhanThongTinScreen extends StatefulWidget {
 
 class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
   bool isInvoice = false;
-  bool isChecked = true;
+  bool isChecked = false;
   final TextEditingController nameController = TextEditingController();
 
   final TextEditingController birthController = TextEditingController();
@@ -53,13 +70,22 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
     people = widget.people;
 
     peopleCount = int.parse(people);
+    nameController.text = widget.buyerName ?? "";
+    birthController.text = widget.buyerBirth ?? "";
+    cccdController.text = widget.buyerCccd ?? "";
+    phoneController.text = widget.buyerPhone ?? "";
+    emailController.text = widget.buyerEmail ?? "";
+
+    insuredPersons = widget.initialPersons ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
     double originalPrice = 6685000;
 
-    bool hasDiscount = peopleCount >= 5 && peopleCount <= 10;
+    int insuredCount = insuredPersons.length;
+
+    bool hasDiscount = insuredCount >= 5 && insuredCount <= 10;
 
     double discount = hasDiscount ? originalPrice * 0.05 : 0;
 
@@ -455,27 +481,51 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
 
                             activeColor: const Color(0xff2F7D32),
 
+                            // onChanged: (v) {
+                            //   setState(() {
+                            //     isChecked = v ?? false;
+
+                            //     if (isChecked) {
+                            //       final buyer = InsuredPerson(
+                            //         name: nameController.text,
+                            //         birth: birthController.text,
+                            //         cccd: cccdController.text,
+                            //         isBuyer: true,
+                            //       );
+
+                            //       bool alreadyExists = insuredPersons.any(
+                            //         (e) => e.isBuyer,
+                            //       );
+
+                            //       if (!alreadyExists) {
+                            //         insuredPersons.insert(0, buyer);
+                            //       }
+                            //     } else {
+                            //       insuredPersons.removeWhere((e) => e.isBuyer);
+                            //     }
+                            //   });
+                            // },
                             onChanged: (v) {
                               setState(() {
                                 isChecked = v ?? false;
 
-                                if (isChecked) {
-                                  final buyer = InsuredPerson(
-                                    name: nameController.text,
-                                    birth: birthController.text,
-                                    cccd: cccdController.text,
-                                    isBuyer: true,
-                                  );
+                                /// XÓA buyer cũ
+                                insuredPersons.removeWhere((e) => e.isBuyer);
 
-                                  bool alreadyExists = insuredPersons.any(
-                                    (e) => e.isBuyer,
+                                /// THÊM buyer mới nếu đã tick và có dữ liệu
+                                if (isChecked &&
+                                    nameController.text.isNotEmpty &&
+                                    birthController.text.isNotEmpty &&
+                                    cccdController.text.isNotEmpty) {
+                                  insuredPersons.insert(
+                                    0,
+                                    InsuredPerson(
+                                      name: nameController.text,
+                                      birth: birthController.text,
+                                      cccd: cccdController.text,
+                                      isBuyer: true,
+                                    ),
                                   );
-
-                                  if (!alreadyExists) {
-                                    insuredPersons.insert(0, buyer);
-                                  }
-                                } else {
-                                  insuredPersons.removeWhere((e) => e.isBuyer);
                                 }
                               });
                             },
@@ -487,11 +537,32 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
 
                       GestureDetector(
                         onTap: () async {
+                          if (isChecked) {
+                            insuredPersons.removeWhere((e) => e.isBuyer);
+
+                            if (nameController.text.isNotEmpty &&
+                                birthController.text.isNotEmpty &&
+                                cccdController.text.isNotEmpty) {
+                              insuredPersons.insert(
+                                0,
+                                InsuredPerson(
+                                  name: nameController.text,
+                                  birth: birthController.text,
+                                  cccd: cccdController.text,
+                                  isBuyer: true,
+                                ),
+                              );
+                            }
+                          }
+
                           final result = await Navigator.push(
                             context,
 
                             MaterialPageRoute(
                               builder: (_) => DanhSachNguoiBHScreen(
+                                // people: insuredPersons.isEmpty
+                                //     ? peopleCount
+                                //     : insuredPersons.length,
                                 people: peopleCount,
                                 initialPersons: insuredPersons,
                               ),
@@ -514,7 +585,6 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
                             });
                           }
                         },
-
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 18,
@@ -531,7 +601,7 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  "Danh sách người được bảo hiểm ($peopleCount)",
+                                  "Danh sách người được bảo hiểm (${insuredPersons.length})",
 
                                   style: const TextStyle(
                                     color: Color(0xffC69214),
@@ -655,7 +725,7 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
 
                             children: [
                               Text(
-                                "$peopleCount x người:",
+                                "$insuredCount x người:",
 
                                 style: const TextStyle(fontSize: 13),
                               ),
@@ -720,6 +790,23 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
 
                     child: ElevatedButton(
                       onPressed: () {
+                        /// EDIT MODE
+                        if (widget.isEditMode) {
+                          Navigator.pop(context, {
+                            "buyerName": nameController.text,
+                            "buyerBirth": birthController.text,
+                            "buyerCccd": cccdController.text,
+                            "buyerPhone": phoneController.text,
+                            "buyerEmail": emailController.text,
+                            "insuredPersons": insuredPersons,
+                            "destination": destination,
+                            "dateRange": dateRange,
+                          });
+
+                          return;
+                        }
+
+                        /// FLOW BÌNH THƯỜNG
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -731,6 +818,9 @@ class _XacNhanThongTinScreenState extends State<XacNhanThongTinScreen> {
                               buyerEmail: emailController.text,
                               insuredPersons: insuredPersons,
                               selectedPackage: widget.selectedPackage,
+                              destination: destination,
+                              dateRange: dateRange,
+                              packages: widget.packages,
                             ),
                           ),
                         );

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   carousel_slider: ^5.1.2
   table_calendar: ^3.1.2
+  mobile_scanner: ^7.2.0
 
 dev_dependencies:
   flutter_test:
@@ -56,31 +57,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    # - assets/image/logo.png
-    # - assets/image/title1.png
-    # - assets/image/title.png
-    # - assets/image/slide1.png
-    # - assets/image/slide2.png
-    # - assets/image/bg_login.png
-    # - assets/image/covn.png
-    # - assets/image/bg_home_1.png
-    # - assets/image/bg_home_2.png
-    # - assets/image/bg_home_3.png
-    # - assets/image/home_1.png
-    # - assets/image/home_2.png
-    # - assets/image/home_3.png
-
-    # - assets/image/105_ic_1.png
-    # - assets/image/105_ic_2.png
-    # - assets/image/105_ic_3.png
-    # - assets/image/105_ic_4.png
-    # - assets/image/105_nen.png
-    # - assets/image/105_vt_kengang.png
-
-    # - assets/image/105_ic_boithuong_1.png
-    # - assets/image/105_ic_boithuong_2.png
-    # - assets/image/105_ic_boithuong_3.png
-
     - assets/image/
     - assets/image/105/
 

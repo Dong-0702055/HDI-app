@@ -8,6 +8,7 @@ class ChiTietGoiScreen extends StatefulWidget {
   final String people;
   final InsurancePackage selectedPackage;
   final List<InsurancePackage> packages;
+  final bool isViewOnly;
 
   const ChiTietGoiScreen({
     super.key,
@@ -16,6 +17,7 @@ class ChiTietGoiScreen extends StatefulWidget {
     required this.destination,
     required this.date,
     required this.people,
+    this.isViewOnly = false,
   });
 
   @override
@@ -440,7 +442,31 @@ class _ChiTietGoiScreenState extends State<ChiTietGoiScreen> {
                           height: 48,
 
                           child: ElevatedButton(
+                            // onPressed: () {
+                            //   Navigator.push(
+                            //     context,
+
+                            //     MaterialPageRoute(
+                            //       builder: (_) => NguoiDuocBaoHiemScreen(
+                            //         selectedPackage: isLeftSelected
+                            //             ? currentPackage
+                            //             : comparePackage,
+
+                            //         destination: widget.destination,
+                            //         dateRange: widget.date,
+                            //         people: widget.people,
+                            //       ),
+                            //     ),
+                            //   );
+                            // },
                             onPressed: () {
+                              /// CHẾ ĐỘ XEM
+                              if (widget.isViewOnly) {
+                                Navigator.pop(context);
+                                return;
+                              }
+
+                              /// FLOW MUA BÌNH THƯỜNG
                               Navigator.push(
                                 context,
 
@@ -449,7 +475,7 @@ class _ChiTietGoiScreenState extends State<ChiTietGoiScreen> {
                                     selectedPackage: isLeftSelected
                                         ? currentPackage
                                         : comparePackage,
-
+                                    packages: widget.packages,
                                     destination: widget.destination,
                                     dateRange: widget.date,
                                     people: widget.people,
@@ -466,8 +492,8 @@ class _ChiTietGoiScreenState extends State<ChiTietGoiScreen> {
                               ),
                             ),
 
-                            child: const Text(
-                              "Mua ngay",
+                            child: Text(
+                              widget.isViewOnly ? "Quay lại" : "Mua ngay",
 
                               style: TextStyle(
                                 color: Colors.white,
