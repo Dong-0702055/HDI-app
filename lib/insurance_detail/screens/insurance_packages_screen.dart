@@ -10,7 +10,7 @@ class InsurancePackagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA), // Light grey bg
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -23,7 +23,11 @@ class InsurancePackagesScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 20,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
@@ -69,10 +73,8 @@ class InsurancePackagesScreen extends StatelessWidget {
                         'assets/icons/icon_avatar.svg',
                         width: 40,
                         height: 40,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
-                          Icons.person,
-                          color: Color(0xFF1B8A4E),
-                        ),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.person, color: Color(0xFF1B8A4E)),
                       ),
                     ),
                   ),

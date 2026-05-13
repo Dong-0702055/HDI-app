@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_hdi/insurance_detail/insurance_detail_screen.dart';
 import 'package:my_hdi/AHM-104/ahm01.dart';
+import 'package:my_hdi/AMH105/01.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -145,9 +146,9 @@ class ContainerHome extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       "assets/image/home_1.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,
+                                      height: 130,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
                                     ),
                                     Text(
                                       "Bảo hiểm",
@@ -188,27 +189,37 @@ class ContainerHome extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) =>
-                                                const InsuranceDetailScreen(),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const InsuranceDetailScreen(),
+                                            ),
+                                          );
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: const Color(
+                                            0xFFBB8A0B,
                                           ),
-                                        );
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: Color(0xFFBB8A0B),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadiusGeometry.circular(1),
+                                          shape: RoundedRectangleBorder(
+                                            // Sửa lại cách gọi BorderRadius cho chuẩn Flutter
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          side: const BorderSide(
+                                            color: Color(0xFFBB8A0B),
+                                          ),
                                         ),
-                                        side: BorderSide(
-                                          color: Color(0xFFBB8A0B),
+                                        child: const Text(
+                                          "Mua ngay",
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                      child: Text("Mua ngay"),
                                     ),
                                   ],
                                 ),
@@ -227,9 +238,9 @@ class ContainerHome extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       "assets/image/home_2.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,
+                                      height: 130,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
                                     ),
                                     Text(
                                       "Bảo hiểm",
@@ -270,19 +281,27 @@ class ContainerHome extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    OutlinedButton(
-                                      onPressed: () {},
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: Color(0xFFBB8A0B),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadiusGeometry.circular(1),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: OutlinedButton(
+                                        onPressed: () {},
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: Color(0xFFBB8A0B),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadiusGeometry.circular(
+                                                  8,
+                                                ),
+                                          ),
+                                          side: BorderSide(
+                                            color: Color(0xFFBB8A0B),
+                                          ),
                                         ),
-                                        side: BorderSide(
-                                          color: Color(0xFFBB8A0B),
+                                        child: const Text(
+                                          "Mua ngay",
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                      child: Text("Mua ngay"),
                                     ),
                                   ],
                                 ),
@@ -301,9 +320,9 @@ class ContainerHome extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       "assets/image/home_3.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,
+                                      height: 130,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
                                     ),
                                     Text(
                                       "Bảo hiểm",
@@ -335,6 +354,100 @@ class ContainerHome extends StatelessWidget {
                                             ),
                                           ),
                                           TextSpan(
+                                            text: 'VNĐ/chuyến đi',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => const Ahm01(),
+                                            ),
+                                          );
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: const Color(
+                                            0xFFBB8A0B,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          side: const BorderSide(
+                                            color: Color(0xFFBB8A0B),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "Mua ngay",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                margin: EdgeInsets.only(left: 10),
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Image.asset(
+                                      "assets/image/105/105_nen.png",
+                                      height: 130,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Text(
+                                      "Bảo hiểm",
+                                      style: TextStyle(
+                                        fontSize: 23,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Du lịch Quốc tế",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'Chỉ từ ',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: '109.000',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          TextSpan(
                                             text: 'VNĐ/năm',
                                             style: TextStyle(
                                               color: Colors.red,
@@ -344,26 +457,35 @@ class ContainerHome extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => const Ahm01(),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => const Screen01(),
+                                            ),
+                                          );
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: const Color(
+                                            0xFFBB8A0B,
                                           ),
-                                        );
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: Color(0xFFBB8A0B),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadiusGeometry.circular(1),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          side: const BorderSide(
+                                            color: Color(0xFFBB8A0B),
+                                          ),
                                         ),
-                                        side: BorderSide(
-                                          color: Color(0xFFBB8A0B),
+                                        child: const Text(
+                                          "Mua ngay",
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                      child: Text("Mua ngay"),
                                     ),
                                   ],
                                 ),

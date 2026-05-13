@@ -21,7 +21,11 @@ class _Ahm02State extends State<Ahm02> {
         ),
         title: const Text(
           "Chi tiết sản phẩm",
-          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
         elevation: 0,
@@ -45,7 +49,7 @@ class _Ahm02State extends State<Ahm02> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Benefit Grid (2x2)
                   GridView.count(
                     shrinkWrap: true,
@@ -110,7 +114,7 @@ class _Ahm02State extends State<Ahm02> {
                 ),
               ),
             ]),
-            
+
             _buildExpansionTile("Quyền lợi bảo hiểm", [
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -119,17 +123,32 @@ class _Ahm02State extends State<Ahm02> {
                   children: [
                     const Text(
                       "a. Quyền lợi bảo hiểm ốm đau, bệnh tật:",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF007A3E), fontSize: 14),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF007A3E),
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    _buildBulletPoint("Chi trả toàn bộ số tiền bảo hiểm cho trường hợp tử vong, thương tật toàn bộ vĩnh viễn;"),
-                    _buildBulletPoint("Trả tỷ lệ thương tật cho trường hợp thương tật bộ phận vĩnh viễn theo Bảng tỷ lệ trả tiền bảo hiểm kèm theo Quy tắc;"),
-                    _buildBulletPoint("Trả chi phí y tế cho trường hợp thương tật tạm thời do tai nạn;"),
-                    _buildBulletPoint("Chi trả tiền trợ cấp trong thời gian nằm viện điều trị thương tật do tai nạn."),
+                    _buildBulletPoint(
+                      "Chi trả toàn bộ số tiền bảo hiểm cho trường hợp tử vong, thương tật toàn bộ vĩnh viễn;",
+                    ),
+                    _buildBulletPoint(
+                      "Trả tỷ lệ thương tật cho trường hợp thương tật bộ phận vĩnh viễn theo Bảng tỷ lệ trả tiền bảo hiểm kèm theo Quy tắc;",
+                    ),
+                    _buildBulletPoint(
+                      "Trả chi phí y tế cho trường hợp thương tật tạm thời do tai nạn;",
+                    ),
+                    _buildBulletPoint(
+                      "Chi trả tiền trợ cấp trong thời gian nằm viện điều trị thương tật do tai nạn.",
+                    ),
                     const SizedBox(height: 8),
                     const Text(
                       "● Quý khách vui lòng tham khảo quyền lợi bảo hiểm chi tiết của từng gói bảo hiểm.",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
@@ -145,19 +164,32 @@ class _Ahm02State extends State<Ahm02> {
 
             _buildExpansionTile("Tài liệu đính kèm", [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Column(
                   children: [
-                    _buildFileDownloadItem("Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới"),
-                    _buildFileDownloadItem("Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới"),
-                    _buildFileDownloadItem("Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới"),
-                    _buildFileDownloadItem("Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới"),
-                    _buildFileDownloadItem("Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới"),
+                    _buildFileDownloadItem(
+                      "Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới",
+                    ),
+                    _buildFileDownloadItem(
+                      "Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới",
+                    ),
+                    _buildFileDownloadItem(
+                      "Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới",
+                    ),
+                    _buildFileDownloadItem(
+                      "Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới",
+                    ),
+                    _buildFileDownloadItem(
+                      "Hướng dẫn yêu cầu bồi thường bảo hiểm bắt buộc TNDS xe cơ giới",
+                    ),
                   ],
                 ),
               ),
             ]),
-            
+
             const SizedBox(height: 40),
           ],
         ),
@@ -186,7 +218,8 @@ class _Ahm02State extends State<Ahm02> {
             iconPath,
             height: 45,
             width: 45,
-            errorBuilder: (context, error, stackTrace) => const Icon(Icons.security, color: Color(0xFF007A3E), size: 40),
+            errorBuilder: (context, error, stackTrace) =>
+                const Icon(Icons.security, color: Color(0xFF007A3E), size: 40),
           ),
           const SizedBox(height: 8),
           Text(
@@ -219,7 +252,11 @@ class _Ahm02State extends State<Ahm02> {
     );
   }
 
-  Widget _buildFullWidthBenefitCard(String title, String description, String iconPath) {
+  Widget _buildFullWidthBenefitCard(
+    String title,
+    String description,
+    String iconPath,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -241,7 +278,8 @@ class _Ahm02State extends State<Ahm02> {
             iconPath,
             height: 45,
             width: 45,
-            errorBuilder: (context, error, stackTrace) => const Icon(Icons.computer, color: Color(0xFF007A3E), size: 40),
+            errorBuilder: (context, error, stackTrace) =>
+                const Icon(Icons.computer, color: Color(0xFF007A3E), size: 40),
           ),
           const SizedBox(height: 8),
           Text(
@@ -268,13 +306,19 @@ class _Ahm02State extends State<Ahm02> {
     );
   }
 
-  Widget _buildExpansionTile(String title, List<Widget> children, {bool isExpanded = false}) {
+  Widget _buildExpansionTile(
+    String title,
+    List<Widget> children, {
+    bool isExpanded = false,
+  }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: isExpanded ? const Color(0xFFBB8A0B) : const Color(0xFFEEEEEE)),
+        border: Border.all(
+          color: isExpanded ? const Color(0xFFBB8A0B) : const Color(0xFFEEEEEE),
+        ),
       ),
       child: ExpansionTile(
         initiallyExpanded: isExpanded,
@@ -304,7 +348,11 @@ class _Ahm02State extends State<Ahm02> {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 13, color: Color(0xFF444444), height: 1.4),
+              style: const TextStyle(
+                fontSize: 13,
+                color: Color(0xFF444444),
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -327,7 +375,11 @@ class _Ahm02State extends State<Ahm02> {
           Expanded(
             child: Text(
               fileName,
-              style: const TextStyle(fontSize: 12, color: Color(0xFF444444), height: 1.4),
+              style: const TextStyle(
+                fontSize: 12,
+                color: Color(0xFF444444),
+                height: 1.4,
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -335,8 +387,15 @@ class _Ahm02State extends State<Ahm02> {
           const SizedBox(width: 8),
           Column(
             children: const [
-              Icon(Icons.file_download_outlined, color: Color(0xFFBB8A0B), size: 20),
-              Text("Tải tài liệu", style: TextStyle(fontSize: 8, color: Color(0xFFBB8A0B))),
+              Icon(
+                Icons.file_download_outlined,
+                color: Color(0xFFBB8A0B),
+                size: 20,
+              ),
+              Text(
+                "Tải tài liệu",
+                style: TextStyle(fontSize: 8, color: Color(0xFFBB8A0B)),
+              ),
             ],
           ),
         ],
