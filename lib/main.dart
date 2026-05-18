@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'login.dart';
+import 'lmtainancongnuoi/chitietsanpham_tai_nan_con_nguoi.dart';
+import 'lmtainancongnuoi/goibaohiem_tai_nan_con_nguoi.dart';
 void main() {
-  runApp(MaterialApp(
-    home: Login(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(
+        MaterialApp(
+            home: GoibaohiemTaiNanConNguoi(),
+            debugShowCheckedModeBanner: false,
+          ),
+      );
 }
 
 

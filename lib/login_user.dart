@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'home.dart';
-class Login extends StatelessWidget{
-  const Login({super.key});
+import 'home_user.dart';
+import 'forgotpassword/forgot_password.dart';
+class LoginUser extends StatelessWidget{
+  const LoginUser({super.key});
   @override
   Widget build(BuildContext context) {
       return Container(
@@ -59,38 +60,27 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
 
 }
 class ContainerLogin extends StatelessWidget{
+  const ContainerLogin({super.key});
+
   @override
   Widget build(BuildContext context) {
    return Container(
      padding: EdgeInsets.all(20),
-     margin: EdgeInsets.only(top: 450),
+     margin: EdgeInsets.only(top: 470),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 10,),
           Text(
-              "Chào mừng bạn",
+              "Chào mừng bạn Nguyễn Văn A\n"
+                  "0373**0207",
               style: TextStyle(
                 color: Colors.red,
-                fontSize: 25,
+                fontSize: 20,
                 fontWeight: FontWeight.bold
               ),
           ),
-          TextField(
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              hintText: "Số điện thoại",
-              prefixIcon: Icon(Icons.phone),
-              hintStyle: TextStyle(
-                fontSize: 17, color: Colors.black.withOpacity(0.3)
-              ),
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none
-              )
-            ),
-          ),
-          SizedBox(height: 15),
+          SizedBox(height: 40,),
           TextField(
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
@@ -108,7 +98,7 @@ class ContainerLogin extends StatelessWidget{
                 )
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -116,7 +106,7 @@ class ContainerLogin extends StatelessWidget{
                   onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context)=>const Home(),
+                      MaterialPageRoute(builder: (context)=>const HomeUser(),
                       )
                     );
                   },
@@ -150,10 +140,11 @@ class ContainerLogin extends StatelessWidget{
               ),
             ],
           ),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(onPressed: (){}, child: Text("Quên mật khẩu",style: TextStyle(fontSize: 18,color: Color(0xFFBB8A0B)))),
+              TextButton(onPressed: ()=> ForgotPasswordSheet.show(context), child: Text("Quên mật khẩu",style: TextStyle(fontSize: 18,color: Color(0xFFBB8A0B)))),
               TextButton(onPressed: (){}, child: Text("Đăng kí tài khoản",style: TextStyle(fontSize: 18,color: Color(0xFFBB8A0B))))
             ],
           )

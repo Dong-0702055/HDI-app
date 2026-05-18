@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget{
-  const Home({super.key});
+class HomeCustom extends StatelessWidget{
+  const HomeCustom({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +11,11 @@ class Home extends StatelessWidget{
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // AutoSliderBanner(),
-              // ServiceContainer()
               ContainerHome(),
             ],
           ),
         ),
+        bottomNavigationBar: CustomBottomNavBar(),
       );
   }
 
@@ -29,20 +28,27 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Padding(padding: EdgeInsets.only(left:16),
           child: Image.asset('assets/image/logo.png')),
       actions: [
+        Row(
+
+        ),
         TextButton.icon(onPressed: (){},
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 4), // Thu nhỏ padding của nút
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Thu nhỏ vùng bấm
+            ),
             icon: Icon(Icons.person_2_outlined, color: Colors.green,),
-            label: Text("Đăng nhập", style: TextStyle(fontSize: 20, color: Colors.black))
+            label: Text("Đăng nhập", style: TextStyle(fontSize: 18, color: Colors.green))
         ),
         IconButton(
-          icon: Icon(Icons.search, color: Colors.black87),
+          icon: Icon(Icons.search, color: Colors.green),
           onPressed: () {},
         ),
         IconButton(
-          icon: Icon(Icons.notifications_none, color: Colors.black87),
+          icon: Icon(Icons.notifications_none, color: Colors.green),
           onPressed: () {},
         ),
         IconButton(
-          icon: Icon(Icons.format_list_bulleted, color: Colors.black87),
+          icon: Icon(Icons.format_list_bulleted, color: Colors.green),
           onPressed: () {},
         ),
       ],
@@ -104,6 +110,7 @@ class ContainerHome extends StatelessWidget{
                 ),
                   child: Column(
                     children: [
+                      SizedBox(height: 15),
                       Column(
                         children: [
                           Text("Bảo hiểm trực tuyến",
@@ -112,7 +119,8 @@ class ContainerHome extends StatelessWidget{
 
                           color: Colors.white
                           ),
-                                          ),
+                          ),
+                          SizedBox(height: 20),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -336,20 +344,34 @@ class ContainerHome extends StatelessWidget{
                             ),
                           ),
                           Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top:30),
+                            width: 180,
+                            margin: EdgeInsets.only(top:20),
                             child: OutlinedButton(
                                 onPressed: (){},
                                 style: OutlinedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadiusGeometry.circular(1),
+                                      borderRadius: BorderRadiusGeometry.circular(5),
                                     ),
                                     side: BorderSide(
                                         color: Color(0xFFBB8A0B)
                                     )
                                 ),
-                                child: Text("Xem thêm",style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),)),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Xem thêm",
+                                      style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),
+                                    ),
+                                    const SizedBox(width: 15),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 18,
+                                      color: Color(0xFFBB8A0B),
+                                    ),
+                                  ],
+                                )
+                            ),
                           ),
                           Container(
                             alignment: Alignment.center,
@@ -460,20 +482,34 @@ class ContainerHome extends StatelessWidget{
                           ),
                         ),
                         Container(
-                          alignment: Alignment.center,
+                          width: 180,
                           margin: EdgeInsets.only(top:20),
                           child: OutlinedButton(
                               onPressed: (){},
                               style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(1),
+                                    borderRadius: BorderRadiusGeometry.circular(5),
                                   ),
                                   side: BorderSide(
                                       color: Color(0xFFBB8A0B)
                                   )
                               ),
-                              child: Text("Xem thêm",style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),)),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Xem thêm",
+                                    style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 18,
+                                    color: Color(0xFFBB8A0B),
+                                  ),
+                                ],
+                              )
+                          ),
                         ),
                         Container(
                           alignment: Alignment.center,
@@ -482,7 +518,7 @@ class ContainerHome extends StatelessWidget{
                             style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight(500),
-                                color: Colors.green
+                                color: Color(0xFF196121)
                             ),),
                         ),
                         SingleChildScrollView(
@@ -566,20 +602,34 @@ class ContainerHome extends StatelessWidget{
                           ),
                         ),
                         Container(
-                          alignment: Alignment.center,
+                          width: 180,
                           margin: EdgeInsets.only(top:20),
                           child: OutlinedButton(
                               onPressed: (){},
                               style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(1),
+                                    borderRadius: BorderRadiusGeometry.circular(5),
                                   ),
                                   side: BorderSide(
                                       color: Color(0xFFBB8A0B)
                                   )
                               ),
-                              child: Text("Xem thêm",style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),)),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Xem thêm",
+                                    style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 18,
+                                    color: Color(0xFFBB8A0B),
+                                  ),
+                                ],
+                              )
+                          ),
                         ),
                       ],
                     )
@@ -1096,8 +1146,119 @@ class ContainerHome extends StatelessWidget{
                 )
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(name)
+                SizedBox(height: 180,),
+                Row(
+                  children: [
+                    SizedBox(width: 50,),
+                    Image.asset("assets/image/logohd_insurance.png"),
+                  ],
+                ),
+                SizedBox(height: 80,),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Công ty TNHH Bảo hiểm HD",
+                        style: TextStyle(fontSize: 22, color: Colors.white),
+                      ),
+                      SizedBox(height: 15,),
+                      Text("Giấy phép thành lập và hoạt động số 82/GP/KDBH\n"
+                          "ngày cấp 19/5/2020 cấp bởi Bộ Tài Chính",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          ImageIcon(AssetImage("assets/icons/icon_addres.png"),color: Colors.white,size: 24,),
+                          Text("Tòa nhà Abacus, 58 Nguyễn Đình Chiều \n,Quận 1, Tp.Hồ Chí Minh",style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          ImageIcon(AssetImage("assets/icons/icon_email.png"),color: Colors.white,size: 24,),
+                          Text("Email: info@hdinsurance.com.vn",style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          ImageIcon(AssetImage("assets/icons/icon_call.png"),color: Colors.white,size: 24,),
+                          Text("Hotline: (028) 3528 2888",style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          ImageIcon(AssetImage("assets/icons/icon_global.png"),color: Colors.white,size: 24,),
+                          Text("Website: hdinsurance.com.vn",style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Text("Theo dõi chúng tôi",
+                        style: TextStyle(fontSize: 22, color: Colors.white),
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          Container(
+                           decoration: BoxDecoration(
+                             color: Color(0xFF1E7E34),
+                             borderRadius: BorderRadius.circular(10)
+                           ),
+                           child:  IconButton(padding: EdgeInsets.zero,
+                               onPressed: (){},
+                               icon: Image.asset("assets/icons/icon_fb.png",fit: BoxFit.contain,width: 30,)),
+                         ),
+                          SizedBox(width: 15,),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xFF1E7E34),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child:  IconButton(padding: EdgeInsets.zero,
+                                onPressed: (){},
+                                icon: Image.asset("assets/icons/icon_in.png",fit: BoxFit.contain,width: 30,)),
+                          ),
+                          SizedBox(width: 15,),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xFF1E7E34),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child:  IconButton(padding: EdgeInsets.zero,
+                                onPressed: (){},
+                                icon: Image.asset("assets/icons/icon_ytb.png",fit: BoxFit.contain,width: 30,)),
+                          ),
+                          SizedBox(width: 15,),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xFF1E7E34),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child:  IconButton(padding: EdgeInsets.zero,
+                                onPressed: (){},
+                                icon: Image.asset("assets/icons/icon_ig.png",fit: BoxFit.contain,width: 30,)),
+                          ),
+                          SizedBox(width: 15,),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xFF1E7E34),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child:  IconButton(padding: EdgeInsets.zero,
+                                onPressed: (){},
+                                icon: Image.asset("assets/icons/icon_zalo.png",fit: BoxFit.contain,width: 30,)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           )
@@ -1106,3 +1267,145 @@ class ContainerHome extends StatelessWidget{
     );
   }
 }
+class CustomBottomNavBar1 extends StatelessWidget{
+  const CustomBottomNavBar1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 90,
+      width: double.infinity,
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Column(
+            children: [
+              IconButton(
+                  onPressed: (){},
+                iconSize: 30,
+                  icon: Image.asset("assets/icons/icon_bottom1.png"),),
+              Text("Trang chủ",style: TextStyle(fontSize: 13,color: Colors.grey),)
+            ],
+          ),
+          Column(
+            children: [
+              IconButton(
+                onPressed: (){},
+                iconSize: 30,
+                icon: Image.asset("assets/icons/icon_bottom1.png"),),
+              Text("Trang chủ",style: TextStyle(fontSize: 13,color: Colors.grey),)
+            ],
+          ),
+          Column(
+            children: [
+              IconButton(
+                onPressed: (){},
+                iconSize: 30,
+                icon: Image.asset("assets/icons/icon_bottom1.png"),),
+              Text("Trang chủ",style: TextStyle(fontSize: 13,color: Colors.grey),)
+            ],
+          ),
+          Column(
+            children: [
+              IconButton(
+                onPressed: (){},
+                iconSize: 30,
+                icon: Image.asset("assets/icons/icon_bottom1.png"),),
+              Text("Trang chủ",style: TextStyle(fontSize: 13,color: Colors.grey),)
+            ],
+          ),
+          Column(
+            children: [
+              IconButton(
+                onPressed: (){},
+                iconSize: 30,
+                icon: Image.asset("assets/icons/icon_bottom1.png"),),
+              Text("Trang chủ",style: TextStyle(fontSize: 13,color: Colors.grey),)
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+class CustomBottomNavBar extends StatefulWidget{
+  const CustomBottomNavBar({super.key});
+
+  @override
+  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
+}
+class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
+  int _selectedIndex = 0;
+
+  Widget _buildBottomItem(int index, String label, String assetPath) {
+    bool isSelected = _selectedIndex == index;
+    bool isCenter = index == 2;
+
+    Color activeColor = const Color(0xFFBB8A0B);
+    Color inactiveColor = Colors.grey;
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 5),
+            Image.asset(
+              assetPath,
+              width: isCenter ? 32 : 24,
+              height: isCenter ? 32 : 24,
+              color: isSelected ? activeColor : null,
+              colorBlendMode: isCenter && !isSelected ? null : BlendMode.srcIn,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                color: isSelected ? activeColor : inactiveColor,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 5),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            _buildBottomItem(0, "Trang chủ", "assets/icons/icon_bottom1.png"),
+            _buildBottomItem(1, "Bồi thường", "assets/icons/icon_bottom2.png"),
+            _buildBottomItem(2, "Thao tác", "assets/icons/icon_bottom3.png"),
+            _buildBottomItem(3, "Hỗ trợ", "assets/icons/icon_bottom4.png"),
+            _buildBottomItem(4, "Tiện ích", "assets/icons/icon_bottom5.png"),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

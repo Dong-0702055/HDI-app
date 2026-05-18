@@ -35,6 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   carousel_slider: ^5.1.2
+  url_launcher: ^6.3.0
+  camera: ^0.11.0
 
 dev_dependencies:
   flutter_test:
@@ -55,26 +57,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/image/logo.png
-    - assets/image/logo1.png
-    - assets/image/title1.png
-    - assets/image/title.png
-    - assets/image/slide1.png
-    - assets/image/slide2.png
-    - assets/image/bg_login.png
-    - assets/image/covn.png
-    - assets/image/bg_home_1.png
-    - assets/image/bg_home_2.png
-    - assets/image/bg_home_3.png
-    - assets/image/bg_home_4.png
-    - assets/image/bg_home_5.png
-    - assets/image/bg_home_6.png
-    - assets/image/home_1.png
-    - assets/image/home_2.png
-    - assets/image/home_3.png
-    - assets/image/new1.png
-    - assets/image/new2.png
-    - assets/image/new3.png
+    - assets/image/
+    - assets/icons/
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
