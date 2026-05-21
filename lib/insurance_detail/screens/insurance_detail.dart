@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widgets/detail/header.dart';
-import 'widgets/detail/action_buttons.dart';
-import 'widgets/detail/bottom_cta.dart';
+import '../widgets/detail/header.dart';
+import '../widgets/detail/action_buttons.dart';
+import '../widgets/detail/bottom_cta.dart';
 
 class InsuranceDetailScreen extends StatelessWidget {
   const InsuranceDetailScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../models/package_data.dart';
-import '../../screens/package_comparison_screen.dart';
+import '../../screens/package_comparison.dart';
 
 class PackageCard extends StatelessWidget {
   final InsurancePackage package;

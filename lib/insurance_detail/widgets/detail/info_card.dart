@@ -150,7 +150,8 @@ class _InfoCardState extends State<InfoCard> {
                 style: TextStyle(
                   color: Color(0xFF1B8A4E),
                   fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
+                  fontSize: 13,
+                  decoration: TextDecoration.none,
                 ),
               ),
             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../screens/insurance_packages_screen.dart';
+import '../../screens/insurance_packages.dart';
 
 class AgeSelectionBottomSheet extends StatefulWidget {
   const AgeSelectionBottomSheet({super.key});

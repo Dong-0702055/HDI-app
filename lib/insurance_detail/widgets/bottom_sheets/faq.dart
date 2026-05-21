@@ -32,7 +32,7 @@ class FaqBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(width: 24), // Balance for close icon
+              const SizedBox(width: 24),
               const Text(
                 'Câu hỏi',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -80,7 +80,9 @@ class _FaqExpandableItemState extends State<_FaqExpandableItem> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: _isOpen ? const Color(0xFFBB8A0B) : Colors.transparent, // Yellow border when active
+          color: _isOpen
+              ? const Color(0xFFBB8A0B)
+              : Colors.transparent, // Yellow border when active
           width: 1,
         ),
         boxShadow: [
@@ -119,7 +121,9 @@ class _FaqExpandableItemState extends State<_FaqExpandableItem> {
                   ),
                   const SizedBox(width: 16),
                   Icon(
-                    _isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _isOpen
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     color: Colors.grey[600],
                     size: 24,
                   ),
@@ -132,21 +136,31 @@ class _FaqExpandableItemState extends State<_FaqExpandableItem> {
             firstChild: const SizedBox(width: double.infinity, height: 0),
             secondChild: Column(
               children: [
-                const Divider(height: 1, color: Color(0xFFEEEEEE), indent: 16, endIndent: 16),
+                const Divider(
+                  height: 1,
+                  color: Color(0xFFEEEEEE),
+                  indent: 16,
+                  endIndent: 16,
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 12),
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                    top: 12,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
                         padding: EdgeInsets.only(top: 6.0, right: 8.0),
-                        child: Icon(Icons.circle, size: 6, color: Color(0xFF666666)),
+                        child: Icon(Icons.circle, size: 6, color: Colors.black),
                       ),
                       Expanded(
                         child: Text(
                           widget.item.answer,
                           style: const TextStyle(
-                            color: Color(0xFF666666),
+                            color: Colors.black,
                             fontSize: 13,
                             height: 1.6,
                           ),
@@ -157,7 +171,9 @@ class _FaqExpandableItemState extends State<_FaqExpandableItem> {
                 ),
               ],
             ),
-            crossFadeState: _isOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: _isOpen
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
           ),
         ],

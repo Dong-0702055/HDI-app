@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:my_hdi/insurance_detail/insurance_detail_screen.dart';
+import 'package:my_hdi/insurance_detail/screens/insurance_detail.dart';
 import 'package:my_hdi/AHM-104/ahm01.dart';
 import 'package:my_hdi/AMH105/01.dart';
 

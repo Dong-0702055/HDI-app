@@ -32,7 +32,7 @@ class ClaimProcessBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(width: 24), // Balance for close icon
+              const SizedBox(width: 24),
               const Text(
                 'Bồi thường',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -118,7 +118,9 @@ class _ExpandableSectionState extends State<_ExpandableSection> {
                     ),
                   ),
                   Icon(
-                    _isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _isOpen
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     color: Colors.grey[600],
                   ),
                 ],
@@ -132,7 +134,9 @@ class _ExpandableSectionState extends State<_ExpandableSection> {
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Column(
                 children: [
-                  ...widget.section.steps.map((step) => _ClaimStepCard(step: step)),
+                  ...widget.section.steps.map(
+                    (step) => _ClaimStepCard(step: step),
+                  ),
                   const SizedBox(height: 12),
                   // Xem chi tiết button
                   GestureDetector(
@@ -160,7 +164,9 @@ class _ExpandableSectionState extends State<_ExpandableSection> {
                 ],
               ),
             ),
-            crossFadeState: _isOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: _isOpen
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
           ),
         ],

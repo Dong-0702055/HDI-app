@@ -4,7 +4,7 @@ import '../widgets/comparison/comparison_header.dart';
 import '../widgets/comparison/comparison_table.dart';
 import '../widgets/comparison/comparison_bottom_cta.dart';
 import '../widgets/bottom_sheets/package_selector.dart';
-import 'insured_info_screen.dart';
+import 'insured_info.dart';
 
 class PackageComparisonScreen extends StatefulWidget {
   const PackageComparisonScreen({super.key});

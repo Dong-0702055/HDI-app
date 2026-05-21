@@ -74,9 +74,7 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
     );
   }
 
-  // ══════════════════════════════════════════
   // FAIL CARD
-  // ══════════════════════════════════════════
   Widget _buildFailCard(BuildContext context) {
     return _buildResultCard(
       context: context,
@@ -92,9 +90,8 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
     );
   }
 
-  // ══════════════════════════════════════════
   // SHARED CARD BUILDER
-  // ══════════════════════════════════════════
+  // ═════════════════════════════════════════
   Widget _buildResultCard({
     required BuildContext context,
     required Color iconColor,
@@ -209,9 +206,7 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
   }
 }
 
-// ══════════════════════════════════════════
 // ZIGZAG BOTTOM CLIPPER
-// ══════════════════════════════════════════
 class _ZigzagClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
