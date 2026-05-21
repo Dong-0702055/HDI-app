@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'BH_NTN/bh_ntn.dart';
 
 class Home extends StatelessWidget{
   const Home({super.key});
@@ -65,6 +66,7 @@ class Container1 extends StatelessWidget{
     'assets/image/slide1.png',
     'assets/image/slide2.png',
   ];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -316,6 +318,84 @@ class Container1 extends StatelessWidget{
                                       ),
                                       OutlinedButton(
                                           onPressed: (){},
+                                          style: OutlinedButton.styleFrom(
+                                              foregroundColor:  Color(0xFFBB8A0B),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadiusGeometry.circular(1),
+                                              ),
+                                              side: BorderSide(
+                                                  color: Color(0xFFBB8A0B)
+                                              )
+                                          ),
+                                          child: Text("Mua ngay")),
+
+                                    ],
+                                  ),
+                                ),
+                                  Container(
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.only(left: 10),
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image.asset("assets/image/home_4.png",
+                                        height: 150,
+                                        width: 200,
+                                        fit: BoxFit.fitWidth,),
+                                      Text(
+                                        "Bảo hiểm",
+                                        style: TextStyle(
+                                          fontSize: 23,
+
+                                        ),
+                                      ),
+                                      Text(
+                                        "Bảo hiểm nhà tư nhân",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            overflow: TextOverflow.ellipsis
+                                        ),
+                                      ),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: 'Chỉ từ ',
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '1.139.000',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: 'VNĐ/năm',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      OutlinedButton(
+                                          onPressed: (){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => BH_NTN()),
+                                          );
+                                          },
                                           style: OutlinedButton.styleFrom(
                                               foregroundColor:  Color(0xFFBB8A0B),
                                               shape: RoundedRectangleBorder(
