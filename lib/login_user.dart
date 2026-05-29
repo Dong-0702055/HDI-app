@@ -41,9 +41,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
       actions: [
           Padding(
             padding: EdgeInsetsGeometry.only(right: 10),
-            // child: CircleAvatar(
-            //   backgroundImage: AssetImage("assets/covn.png"),
-            // ),
             child: Image.asset(
                 "assets/image/covn.png",
                 height: 30,

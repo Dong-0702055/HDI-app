@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../global/app_color.dart';
+import '../widgets/widgets.dart';
 import 'home_tai_nan_con_nguoi.dart';
 class ProductTaiNanConNguoi extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarHome(),
+      appBar: AppBarHome("Bảo hiểm tai nạn",duongDan: HomeTaiNanConNguoi()),
       body: Container(
         color: Colors.white,
         width: double.infinity,
@@ -25,39 +27,6 @@ class ProductTaiNanConNguoi extends StatelessWidget{
       ),
     );
   }
-
-}
-class AppBarHome extends StatelessWidget implements PreferredSizeWidget{
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      leading: IconButton(
-        onPressed: () => Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (context)=> HomeTaiNanConNguoi())
-        ),
-        icon: const Icon(Icons.keyboard_arrow_left, color: Colors.white, size: 30),
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(),
-      ),
-      titleSpacing: 0,
-      title: const Text(
-        "Bảo hiểm tai nạn",
-        style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-      centerTitle: true,
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF006400), Color(0xFF228B22)],
-          ),
-        ),
-      ),
-    );
-  }
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(60);
 
 }
 class TextTitle extends StatelessWidget{
@@ -205,7 +174,7 @@ class _Layout2State extends State<Layout2> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isOpen ? const Color(0xFFBB8A0B) : Colors.grey.shade300,
+          color: isOpen ?  AppColor.appButtonColor : Colors.grey.shade300,
           width: isOpen ? 1.5 : 1,
         ),
       ),
@@ -218,7 +187,7 @@ class _Layout2State extends State<Layout2> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15,
-            color: isOpen ? const Color(0xFFBB8A0B) : Colors.black87,
+            color: isOpen ?  AppColor.appButtonColor : Colors.black87,
           ),
         ),
         onExpansionChanged: (bool expanded) {
@@ -283,11 +252,11 @@ class _Layout2State extends State<Layout2> {
             },
             child: Column(
               children: const [
-                Icon(Icons.file_download_outlined, color: Color(0xFFBB8A0B), size: 24),
+                Icon(Icons.file_download_outlined, color: AppColor.appButtonColor, size: 24),
                 Text(
                   "Tải tài liệu",
                   style: TextStyle(
-                      color: Color(0xFFBB8A0B),
+                      color: AppColor.appButtonColor,
                       fontSize: 10,
                       fontWeight: FontWeight.bold
                   ),

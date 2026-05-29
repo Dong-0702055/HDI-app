@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../global/app_color.dart';
+import '../widgets/widgets.dart';
 import 'xacnhanthongtin_tai_nan_con_nguoi.dart';
 
 class InvoiceModel {
@@ -18,16 +20,13 @@ class InvoiceModel {
 
 class NhapTayThongTinScreen extends StatefulWidget {
   final Map<String, dynamic> sanPham;
-
   const NhapTayThongTinScreen({super.key, required this.sanPham});
-
   @override
   State<NhapTayThongTinScreen> createState() => _NhapTayThongTinScreenState();
 }
 
 class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
   final _formKey = GlobalKey<FormState>();
-
   bool isInvoiceEnabled = false;
   DateTime? startDate;
   DateTime? endDate;
@@ -67,12 +66,9 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
   }
 
   void _handleContinue() async {
-    // 1. Validate các trường text (Họ tên, CCCD, SĐT, Email)
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
-    // 2. Validate các trường chọn lựa
     if (birthDate == null) {
       _showRequiredSnackBar("Vui lòng chọn Ngày sinh");
       return;
@@ -102,17 +98,16 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
 
     _navigateToNextScreen();
   }
-
   void _openInvoiceForm() async {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final result = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return InvoiceBottomSheetContent(initialData: savedInvoiceData);
+        return InvoiceBottomSheetContent(initialData: savedInvoiceData, isDarkParent: isDark);
       },
     );
-
     if (result != null && result is InvoiceModel) {
       setState(() {
         savedInvoiceData = result;
@@ -144,28 +139,10 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF0A7029), Color(0xFF055E20)],
-            ),
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          "Thông tin người được bảo hiểm",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBarHome("Thông tin người được bảo hiểm"),
       body: Column(
         children: [
           Expanded(
@@ -177,26 +154,28 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildTextField(
+                      isDark,
                       icon: Icons.person_outline,
                       label: "Họ và tên *",
                       controller: _nameController,
                       validator: (value) => (value == null || value.trim().isEmpty) ? "Vui lòng nhập họ và tên" : null,
                     ),
                     _buildDropdownField(
+                      isDark,
                       icon: Icons.calendar_today_outlined,
                       label: "Ngày sinh *",
                       onPress: () => _selectBirthDate(context),
                       value: _formatDate(birthDate),
                     ),
                     _buildDropdownField(
+                      isDark,
                       icon: Icons.person_pin_outlined,
                       label: "Giới tính *",
                       onPress: () => _showGenderPicker(context),
                       value: selectedGender,
                     ),
-
-                    // 👉 Ô NHẬP CĂN CƯỚC CÔNG DÂN: Chỉ nhận số, bắt buộc đúng 12 số
                     _buildTextField(
+                      isDark,
                       icon: Icons.badge_outlined,
                       label: "CMND/CCCD/Hộ chiếu *",
                       controller: _idController,
@@ -209,9 +188,8 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
                         return null;
                       },
                     ),
-
-                    // 👉 Ô NHẬP SỐ ĐIỆN THOẠI: Chỉ nhận số, độ dài 10 hoặc 11 số
                     _buildTextField(
+                      isDark,
                       icon: Icons.phone_android_outlined,
                       label: "Số điện thoại *",
                       controller: _phoneController,
@@ -227,8 +205,8 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
                         return null;
                       },
                     ),
-
                     _buildTextField(
+                      isDark,
                       icon: Icons.email_outlined,
                       label: "Email *",
                       controller: _emailController,
@@ -248,25 +226,26 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
                     ),
                     const SizedBox(height: 12),
                     _buildDropdownField(
+                      isDark,
                       icon: Icons.calendar_today_outlined,
                       label: "Ngày bắt đầu hiệu lực *",
                       onPress: () => _selectStartDate(context),
                       value: _formatDate(startDate),
                     ),
                     _buildDropdownField(
+                      isDark,
                       icon: Icons.calendar_today_outlined,
                       label: "Ngày hết hiệu lực *",
                       onPress: () => _selectEndDate(context),
                       value: _formatDate(endDate),
                     ),
                     const SizedBox(height: 10),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           "Tôi muốn nhận Hoá đơn điện tử",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,  color: isDark ? AppColor.textDark: AppColor.textLight),
                         ),
                         Switch(
                           value: isInvoiceEnabled,
@@ -285,34 +264,24 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
 
                     if (isInvoiceEnabled && savedInvoiceData != null) ...[
                       const SizedBox(height: 12),
-                      _buildInvoiceSummaryCard(),
+                      _buildInvoiceSummaryCard(isDark),
                     ],
                   ],
                 ),
               ),
             ),
           ),
-
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.grey.shade200)),
+              color: isDark ? AppColor.containerDark : AppColor.containerLight,
+              border: Border(top: BorderSide(color: isDark ? Colors.white : Colors.grey.shade200)),
             ),
             child: SafeArea(
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
-                  onPressed: _handleContinue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFB8860B),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                  child: const Text(
-                    "Tiếp tục",
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
+                child: TextButtonApp("Tiếp tục", _handleContinue),
               ),
             ),
           ),
@@ -321,12 +290,12 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
     );
   }
 
-  Widget _buildInvoiceSummaryCard() {
+  Widget _buildInvoiceSummaryCard(bool isDark) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFE8F5E9),
+        color: isDark ? AppColor.containerDark: AppColor.containerLight,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFC8E6C9)),
+        border: Border.all(color: isDark ? Colors.white : const Color(0xFFC8E6C9)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,9 +305,9 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "Thông tin xuất hóa đơn",
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? AppColor.textDark : AppColor.textLight, fontSize: 14),
                 ),
                 InkWell(
                   onTap: _openInvoiceForm,
@@ -346,24 +315,24 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
                     children: [
                       Text(
                         "Chỉnh sửa",
-                        style: TextStyle(color: Color(0xFFB8860B), fontWeight: FontWeight.w500, fontSize: 13),
+                        style: TextStyle(color: AppColor.appButtonColor, fontWeight: FontWeight.w500, fontSize: 13),
                       ),
-                      Icon(Icons.chevron_right, color: Color(0xFFB8860B), size: 16),
+                      Icon(Icons.chevron_right, color: AppColor.appButtonColor, size: 16),
                     ],
                   ),
                 )
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFC8E6C9)),
+          Divider(height: 1, color: isDark ? Colors.white : const Color(0xFFC8E6C9)),
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                _buildSummaryRow("Tên đơn vị:", savedInvoiceData!.companyName),
-                _buildSummaryRow("Mã số thuế:", savedInvoiceData!.taxCode),
-                _buildSummaryRow("Điện thoại:", savedInvoiceData!.phoneNumber),
-                _buildSummaryRow("Địa chỉ:", savedInvoiceData!.address),
+                _buildSummaryRow(isDark, "Tên đơn vị:", savedInvoiceData!.companyName),
+                _buildSummaryRow(isDark, "Mã số thuế:", savedInvoiceData!.taxCode),
+                _buildSummaryRow(isDark, "Điện thoại:", savedInvoiceData!.phoneNumber),
+                _buildSummaryRow(isDark, "Địa chỉ:", savedInvoiceData!.address),
               ],
             ),
           )
@@ -372,20 +341,17 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String title, String content) {
+  Widget _buildSummaryRow(bool isDark, String title, String content) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 90,
-            child: Text(title, style: const TextStyle(color: Colors.grey, fontSize: 13)),
-          ),
+          SizedBox(width: 90, child: Text(title, style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight, fontSize: 13))),
           Expanded(
             child: Text(
               content,
-              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 13),
+              style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight, fontWeight: FontWeight.w400, fontSize: 13),
             ),
           ),
         ],
@@ -393,24 +359,25 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
     );
   }
 
-  Widget _buildTextField({
-    required IconData icon,
-    required String label,
-    required TextEditingController controller,
-    String? Function(String?)? validator,
-    TextInputType keyboardType = TextInputType.text,
-    int? maxLength,
-    List<TextInputFormatter>? inputFormatters,
-  }) {
+  Widget _buildTextField(
+      bool isDark, {
+        required IconData icon,
+        required String label,
+        required TextEditingController controller,
+        String? Function(String?)? validator,
+        TextInputType keyboardType = TextInputType.text,
+        int? maxLength,
+        List<TextInputFormatter>? inputFormatters,
+      }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? AppColor.containerDark: AppColor.containerLight,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
+          BoxShadow(color: Colors.black.withOpacity(isDark ? 0.2 : 0.05), blurRadius: 4, offset: const Offset(0, 2)),
         ],
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: isDark ? Colors.white : Colors.grey.shade200),
       ),
       child: TextFormField(
         controller: controller,
@@ -418,10 +385,11 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
         keyboardType: keyboardType,
         maxLength: maxLength,
         inputFormatters: inputFormatters,
+        style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight,),
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: Colors.grey, size: 22),
+          prefixIcon: Icon(icon,color: AppColor.iconColor, size: 22),
           labelText: label,
-          labelStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+          labelStyle: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight, fontSize: 13),
           border: InputBorder.none,
           counterText: "",
           contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
@@ -431,21 +399,22 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
     );
   }
 
-  Widget _buildDropdownField({
-    required IconData icon,
-    required String label,
-    required VoidCallback onPress,
-    String value = "",
-  }) {
+  Widget _buildDropdownField(
+      bool isDark, {
+        required IconData icon,
+        required String label,
+        required VoidCallback onPress,
+        String value = "",
+      }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? AppColor.containerDark : AppColor.containerLight,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
+          BoxShadow(color: Colors.black.withOpacity(isDark ? 0.2 : 0.05), blurRadius: 4, offset: const Offset(0, 2)),
         ],
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: isDark ? Colors.white : Colors.grey.shade200),
       ),
       child: InkWell(
         onTap: onPress,
@@ -454,25 +423,25 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
           child: Row(
             children: [
-              Icon(icon, color: Colors.grey, size: 22),
+              Icon(icon, color: AppColor.iconColor, size: 22),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    Text(label, style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight, fontSize: 12)),
                     if (value.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           value,
-                          style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                          style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight, fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                   ],
                 ),
               ),
-              const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
+              Icon(Icons.keyboard_arrow_down,color: AppColor.iconColor,),
             ],
           ),
         ),
@@ -481,6 +450,7 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
   }
 
   Future<void> _selectBirthDate(BuildContext context) async {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: birthDate ?? DateTime(2000),
@@ -489,10 +459,11 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color(0xFF0A7029),
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
+            scaffoldBackgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF0A7029),
+              brightness: isDark ? Brightness.dark : Brightness.light,
+              primary: const Color(0xFF0A7029),
             ),
           ),
           child: child!,
@@ -507,11 +478,24 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: startDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF0A7029),
+              brightness: isDark ? Brightness.dark : Brightness.light,
+              primary: const Color(0xFF0A7029),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       setState(() {
@@ -521,11 +505,24 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: endDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF0A7029),
+              brightness: isDark ? Brightness.dark : Brightness.light,
+              primary: const Color(0xFF0A7029),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       setState(() {
@@ -535,8 +532,10 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
   }
 
   void _showGenderPicker(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     showModalBottomSheet(
       context: context,
+      backgroundColor: isDark ? AppColor.containerDark: AppColor.containerLight,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (BuildContext context) {
         return Container(
@@ -544,11 +543,14 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text("Chọn giới tính", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              const Divider(),
+              Text(
+                "Chọn giới tính",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color: isDark ? AppColor.textDark: AppColor.textLight),
+              ),
+              Divider(color: isDark ? Colors.white12 : Colors.grey.shade300),
               ListTile(
                 leading: const Icon(Icons.male, color: Colors.blue),
-                title: const Text("Nam"),
+                title: Text("Nam", style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight)),
                 onTap: () {
                   setState(() => selectedGender = "Nam");
                   Navigator.pop(context);
@@ -556,7 +558,7 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.female, color: Colors.pink),
-                title: const Text("Nữ"),
+                title: Text("Nữ", style: TextStyle( color: isDark ? AppColor.textDark: AppColor.textLight)),
                 onTap: () {
                   setState(() => selectedGender = "Nữ");
                   Navigator.pop(context);
@@ -573,8 +575,8 @@ class _NhapTayThongTinScreenState extends State<NhapTayThongTinScreen> {
 
 class InvoiceBottomSheetContent extends StatefulWidget {
   final InvoiceModel? initialData;
-  const InvoiceBottomSheetContent({super.key, this.initialData});
-
+  final bool isDarkParent;
+  const InvoiceBottomSheetContent({super.key, this.initialData, required this.isDarkParent});
   @override
   State<InvoiceBottomSheetContent> createState() => _InvoiceBottomSheetContentState();
 }
@@ -629,14 +631,16 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = widget.isDarkParent;
+
     return AnimatedPadding(
       padding: MediaQuery.of(context).viewInsets,
       duration: const Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        decoration: BoxDecoration(
+          color: isDark ? AppColor.containerDark : AppColor.containerLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Column(
@@ -645,30 +649,32 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
             Container(
               width: 40,
               height: 4,
-              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(
+                color: isDark ? Colors.black : Colors.white,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(width: 24),
-                const Text(
+                Text(
                   "Hoá đơn điện tử",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isDark ? AppColor.textDark : AppColor.textLight),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, color: Colors.black54),
+                  icon: Icon(Icons.close, color: AppColor.iconColor),
                   onPressed: () => Navigator.pop(context),
                 )
               ],
             ),
-            const Divider(height: 1),
+            Divider(height: 1, color: isDark ? Colors.white : Colors.grey.shade300),
             const SizedBox(height: 16),
 
-            _buildInvoiceField(Icons.domain, "Tên cá nhân/tổ chức *", _companyController),
-
-            // 👉 Mã số thuế: Chỉ nhận số, chặn gõ chữ
+            _buildInvoiceField(isDark, Icons.domain, "Tên cá nhân/tổ chức *", _companyController),
             _buildInvoiceField(
+              isDark,
               Icons.receipt_long,
               "Mã số thuế *",
               _taxCodeController,
@@ -676,9 +682,8 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
               maxLength: 14,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             ),
-
-            // 👉 Số điện thoại hóa đơn: Chỉ nhận số, chặn gõ chữ
             _buildInvoiceField(
+              isDark,
               Icons.phone_android,
               "Số điện thoại *",
               _phoneController,
@@ -686,8 +691,7 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
               maxLength: 11,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             ),
-
-            _buildInvoiceField(Icons.place_outlined, "Địa chỉ người mua *", _addressController),
+            _buildInvoiceField(isDark, Icons.place_outlined, "Địa chỉ người mua *", _addressController),
             const SizedBox(height: 20),
 
             Row(
@@ -698,11 +702,11 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFF8E7),
+                        backgroundColor:isDark ? Color(0xFFEAEAEA) : Color(0xFFFFF4D8),
                         side: const BorderSide(color: Colors.transparent),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: const Text("Huỷ", style: TextStyle(color: Color(0xFFB8860B), fontWeight: FontWeight.bold)),
+                      child: const Text("Huỷ", style: TextStyle(color: AppColor.appButtonColor, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),
@@ -721,14 +725,14 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
                         Navigator.pop(context, invoiceData);
                       } : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFB8860B),
-                        disabledBackgroundColor: Colors.grey.shade200,
+                        backgroundColor: AppColor.appButtonColor,
+                        disabledBackgroundColor: isDark ? Colors.white12 : Colors.grey.shade200,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                       child: Text(
                         "Xác nhận",
                         style: TextStyle(
-                          color: isFormValid ? Colors.white : Colors.black38,
+                          color: isFormValid ? Colors.white : (isDark ? AppColor.iconColor : AppColor.textLight),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -745,6 +749,7 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
   }
 
   Widget _buildInvoiceField(
+      bool isDark,
       IconData icon,
       String label,
       TextEditingController controller, {
@@ -755,19 +760,20 @@ class _InvoiceBottomSheetContentState extends State<InvoiceBottomSheetContent> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? AppColor.containerDark : AppColor.containerLight,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: isDark ? Colors.white : Colors.grey.shade200),
       ),
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
         maxLength: maxLength,
         inputFormatters: inputFormatters,
+        style: TextStyle(color: isDark ? AppColor.textDark : AppColor.textLight,),
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: Colors.grey.shade600, size: 22),
+          prefixIcon: Icon(icon,color: AppColor.iconColor, size: 22),
           labelText: label,
-          labelStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+          labelStyle: TextStyle(color: isDark ? AppColor.textDark : AppColor.textLight, fontSize: 13),
           border: InputBorder.none,
           counterText: "",
           contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

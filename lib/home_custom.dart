@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:my_hdi/global/app_color.dart';
+import 'package:my_hdi/setting.dart';
+import 'widgets/textfieldicon.dart';
+import 'lmtainancongnuoi/home_tai_nan_con_nguoi.dart';
 class HomeCustom extends StatelessWidget{
   const HomeCustom({super.key});
-
   @override
   Widget build(BuildContext context) {
       return Scaffold(
@@ -18,48 +20,55 @@ class HomeCustom extends StatelessWidget{
         bottomNavigationBar: CustomBottomNavBar(),
       );
   }
-
 }
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: isDark ? AppColor.containerDark : AppColor.containerLight,
       leading: Padding(padding: EdgeInsets.only(left:16),
           child: Image.asset('assets/image/logo.png')),
       actions: [
-        Row(
-
-        ),
         TextButton.icon(onPressed: (){},
             style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4), // Thu nhỏ padding của nút
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Thu nhỏ vùng bấm
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap
             ),
             icon: Icon(Icons.person_2_outlined, color: Colors.green,),
             label: Text("Đăng nhập", style: TextStyle(fontSize: 18, color: Colors.green))
         ),
-        IconButton(
-          icon: Icon(Icons.search, color: Colors.green),
-          onPressed: () {},
+        _IconButtonBar(icon: Icons.search, onPress: (){},isDark: isDark),
+        _IconButtonBar(icon: Icons.notifications_none, onPress: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=> HomeTaiNanConNguoi()));
+        },
+          isDark: isDark
         ),
-        IconButton(
-          icon: Icon(Icons.notifications_none, color: Colors.green),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Icon(Icons.format_list_bulleted, color: Colors.green),
-          onPressed: () {},
+        _IconButtonBar(icon: Icons.format_list_bulleted, onPress: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AccountSettingsScreen(),
+            ),
+          );
+        },
+            isDark: isDark
         ),
       ],
-
     );
   }
-
+  Widget _IconButtonBar({required icon, required onPress, required bool isDark}){
+    return IconButton(
+      icon: Icon(icon, color: isDark ? Colors.white :  Colors.green),
+      onPressed: onPress,
+    );
+  }
   @override
   // TODO: implement preferredSize
   final Size preferredSize = const Size.fromHeight(60.0);
-
   const HomeAppBar({super.key});
 }
 class ContainerHome extends StatelessWidget{
@@ -71,7 +80,6 @@ class ContainerHome extends StatelessWidget{
     'assets/image/slide1.png',
     'assets/image/slide2.png',
   ];
-
    ContainerHome({super.key});
   @override
   Widget build(BuildContext context) {
@@ -87,17 +95,12 @@ class ContainerHome extends StatelessWidget{
                 enlargeCenterPage: false,
               ),
               items: imgList1.map((item) => Container(
-              child: Image.asset(
-              item,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              ),
+              child: Image.asset(item, fit: BoxFit.cover, width: double.infinity,),
               )).toList(),
               ),
             Column(
               children: [
                 Container(
-                  width: double.infinity,
                   margin: EdgeInsets.only(top: 285),
                   padding: EdgeInsets.only(top:45),
                   alignment: Alignment.topCenter,
@@ -113,276 +116,40 @@ class ContainerHome extends StatelessWidget{
                       SizedBox(height: 15),
                       Column(
                         children: [
-                          Text("Bảo hiểm trực tuyến",
-                          style: TextStyle(
-                          fontSize: 28,
-
-                          color: Colors.white
-                          ),
-                          ),
+                          _Title(text: "Bảo hiểm trực tuyến"),
                           SizedBox(height: 20),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  padding: EdgeInsets.all(5),
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Image.asset("assets/image/home_1.png",
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fitWidth,),
-                                      Text(
-                                        "Bảo hiểm",
-                                        style: TextStyle(
-                                          fontSize: 23,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Chăm sóc sức khỏe và tai nạn",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            overflow: TextOverflow.ellipsis
-                                        ),
-                                      ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: 'Chỉ từ ',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: '1.695.000',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: 'VNĐ/năm',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      OutlinedButton(
-                                          onPressed: (){},
-                                          style: OutlinedButton.styleFrom(
-                                              foregroundColor:  Color(0xFFBB8A0B),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadiusGeometry.circular(1),
-                                              ),
-                                              side: BorderSide(
-                                                  color: Color(0xFFBB8A0B)
-                                              )
-                                          ),
-                                          child: Text("Mua ngay")),
-                                    ],
-                                  ),
+                                _SanPhamBaoHiemTrucTuyen(
+                                  image: "assets/image/home_1.png",
+                                  title:  "Bảo hiểm",
+                                  text: "Chăm sóc sức khỏe và tai nạn",
+                                  price: '1.695.000',
+                                  onpress: (){}
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.only(left: 10),
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Image.asset("assets/image/home_2.png",
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fitWidth,),
-                                      Text(
-                                        "Bảo hiểm",
-                                        style: TextStyle(
-                                          fontSize: 23,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Tai nạn và con người",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            overflow: TextOverflow.ellipsis
-                                        ),
-                                      ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: 'Chỉ từ ',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: '1.695.000',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: 'VNĐ/năm',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      OutlinedButton(
-                                          onPressed: (){},
-                                          style: OutlinedButton.styleFrom(
-                                              foregroundColor:  Color(0xFFBB8A0B),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadiusGeometry.circular(1),
-                                              ),
-                                              side: BorderSide(
-                                                  color: Color(0xFFBB8A0B)
-                                              )
-                                          ),
-                                          child: Text("Mua ngay")),
-                                    ],
-                                  ),
+                                _SanPhamBaoHiemTrucTuyen(
+                                    image: "assets/image/home_2.png",
+                                    title:  "Bảo hiểm",
+                                    text: "Chăm sóc sức khỏe và tai nạn",
+                                    price: '1.695.000',
+                                    onpress: (){}
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.only(left: 10),
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Image.asset("assets/image/home_3.png",
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fitWidth,),
-                                      Text(
-                                        "Bảo hiểm",
-                                        style: TextStyle(
-                                          fontSize: 23,
-
-                                        ),
-                                      ),
-                                      Text(
-                                        "Du lịch Việt Nam",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            overflow: TextOverflow.ellipsis
-                                        ),
-                                      ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: 'Chỉ từ ',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: '39.000',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: 'VNĐ/năm',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      OutlinedButton(
-                                          onPressed: (){},
-                                          style: OutlinedButton.styleFrom(
-                                              foregroundColor:  Color(0xFFBB8A0B),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadiusGeometry.circular(1),
-                                              ),
-                                              side: BorderSide(
-                                                  color: Color(0xFFBB8A0B)
-                                              )
-                                          ),
-                                          child: Text("Mua ngay")),
-
-                                    ],
-                                  ),
-                                )
+                                _SanPhamBaoHiemTrucTuyen(
+                                    image: "assets/image/home_3.png",
+                                    title:  "Bảo hiểm",
+                                    text: "Chăm sóc sức khỏe và tai nạn",
+                                    price: '1.695.000',
+                                    onpress: (){}
+                                ),
                               ],
                             ),
                           ),
-                          Container(
-                            width: 180,
-                            margin: EdgeInsets.only(top:20),
-                            child: OutlinedButton(
-                                onPressed: (){},
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadiusGeometry.circular(5),
-                                    ),
-                                    side: BorderSide(
-                                        color: Color(0xFFBB8A0B)
-                                    )
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Xem thêm",
-                                      style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),
-                                    ),
-                                    const SizedBox(width: 15),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 18,
-                                      color: Color(0xFFBB8A0B),
-                                    ),
-                                  ],
-                                )
-                            ),
+                          _ButtonXemThem(
+                              onpress: (){}
                           ),
-                          Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top:30),
-                            child: Text("Dịch vụ khách hàng",
-                              style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight(500),
-                                  color: Colors.white
-                              ),),
-                          ),
+                         _Title(text: "Dịch vụ khách hàng")
                         ],
                       ),
                     ],
@@ -390,8 +157,8 @@ class ContainerHome extends StatelessWidget{
                 ),
                 Container(
                     width: double.infinity,
+                    height: 720,
                     alignment: Alignment.topCenter,
-                    height: 700,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/image/bg_home_2.png"),
@@ -405,111 +172,15 @@ class ContainerHome extends StatelessWidget{
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10,top: 10,),
-                                padding: EdgeInsets.all(5),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/image/home_1.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,),
-                                    Text(
-                                      "Bảo hiểm",
-                                      style: TextStyle(
-                                        fontSize: 23,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                margin: EdgeInsets.only(left: 10,top: 10,),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/image/home_2.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,),
-                                    Text(
-                                      "Bảo hiểm",
-                                      style: TextStyle(
-                                        fontSize: 23,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                margin: EdgeInsets.only(left: 10,top: 10,),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/image/home_3.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,),
-                                    Text(
-                                      "Bảo hiểm",
-                                      style: TextStyle(
-                                        fontSize: 23,
-
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
                             ],
                           ),
                         ),
-                        Container(
-                          width: 180,
-                          margin: EdgeInsets.only(top:20),
-                          child: OutlinedButton(
-                              onPressed: (){},
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(5),
-                                  ),
-                                  side: BorderSide(
-                                      color: Color(0xFFBB8A0B)
-                                  )
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Xem thêm",
-                                    style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 18,
-                                    color: Color(0xFFBB8A0B),
-                                  ),
-                                ],
-                              )
-                          ),
+                        _ButtonXemThem(
+                            onpress: (){}
                         ),
                         Container(
                           alignment: Alignment.center,
@@ -525,111 +196,15 @@ class ContainerHome extends StatelessWidget{
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10,top: 10,),
-                                padding: EdgeInsets.all(5),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/image/home_1.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,),
-                                    Text(
-                                      "Bảo hiểm",
-                                      style: TextStyle(
-                                        fontSize: 23,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                margin: EdgeInsets.only(left: 10,top: 10,),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/image/home_2.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,),
-                                    Text(
-                                      "Bảo hiểm",
-                                      style: TextStyle(
-                                        fontSize: 23,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                margin: EdgeInsets.only(left: 10,top: 10,),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/image/home_3.png",
-                                      height: 150,
-                                      width: 200,
-                                      fit: BoxFit.fitWidth,),
-                                    Text(
-                                      "Bảo hiểm",
-                                      style: TextStyle(
-                                        fontSize: 23,
-
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
+                              _SanPhamBaoHiemTrucTuyenSmall(image: "assets/image/home_1.png", title: "Bảo hiểm"),
                             ],
                           ),
                         ),
-                        Container(
-                          width: 180,
-                          margin: EdgeInsets.only(top:20),
-                          child: OutlinedButton(
-                              onPressed: (){},
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(5),
-                                  ),
-                                  side: BorderSide(
-                                      color: Color(0xFFBB8A0B)
-                                  )
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Xem thêm",
-                                    style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 18,
-                                    color: Color(0xFFBB8A0B),
-                                  ),
-                                ],
-                              )
-                          ),
+                        _ButtonXemThem(
+                            onpress: (){}
                         ),
                       ],
                     )
@@ -722,155 +297,29 @@ class ContainerHome extends StatelessWidget{
                     SizedBox(height: 10,),
                     Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
-                                )
-                              ]
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Số điện thoại",
-                                prefixIcon: Icon(Icons.phone),
-                                filled: true,
-                                fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide.none
-                                  )
-
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20,),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 1,
-                                    blurRadius: 8,
-                                    offset: Offset(0, 4),
-                                  )
-                                ]
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Họ và tên",
-                                  prefixIcon: Icon(Icons.person),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none
-                                )
-
-                              ),
-                            ),
-                          ),
-                        )
+                        TextFieldIcon("Số điện thoại",Icons.phone),
+                        SizedBox(width: 20),
+                        TextFieldIcon("Họ tên",Icons.person),
                       ],
                     ),
-                    SizedBox(height: 10,),
-                    Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 1,
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
-                            )
-                          ]
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            hintText: "Email",
-                            prefixIcon: Icon(Icons.email),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none
-                            )
-
-                        ),
-                      ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        TextFieldIcon("Email",Icons.email),
+                      ],
                     ),
                     SizedBox(height: 10,),
                     Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 1,
-                                    blurRadius: 8,
-                                    offset: Offset(0, 4),
-                                  )
-                                ]
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Ngày hẹn",
-                                  prefixIcon: Icon(Icons.event_available),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide.none
-                                  )
-
-                              ),
-                            ),
-                          ),
-                        ),
+                        TextFieldIcon("Ngày hẹn",Icons.event_available),
                         SizedBox(width: 20,),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 1,
-                                    blurRadius: 8,
-                                    offset: Offset(0, 4),
-                                  )
-                                ]
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Giờ bắt hẹn",
-                                  prefixIcon: Icon(Icons.event_available),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide.none
-                                  )
-
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20,),
-
+                        TextFieldIcon("Giờ bắt hẹn",Icons.event_available),
                       ],
                     ),
                     SizedBox(height: 10,),
                     TextButton(onPressed: (){},
                         style: TextButton.styleFrom(
-                          backgroundColor: Color(0xFFBB8A0B),
+                          backgroundColor: AppColor.appButtonColor,
                           minimumSize: Size(400, 30),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadiusGeometry.circular(10)
@@ -898,217 +347,31 @@ class ContainerHome extends StatelessWidget{
                 ),
                 child: Column(
                   children: [
-                    Text("TIN TỨC",style: TextStyle(fontSize: 25,color: Colors.green),),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white
-                      ),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  "assets/image/new1.png",
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Tin thị trường",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text("Thông báo về: \"Điều khoản và điều kiện chung"
-                              " về bảo vệ và xử lí dữ liệu cá nhân\"",
-                            style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16),maxLines: 2,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("11:00 - 20/12/2023",
-                                style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16, fontWeight: FontWeight(350)),maxLines: 2,),
-                              TextButton.icon(
-                                onPressed: () {
-                                },
-                                icon: Text(
-                                  "Xem thêm",
-                                  style: TextStyle(color: Color(0xFFBB8A0B)),
-                                ),
-                                label: Icon(Icons.arrow_forward, color: Color(0xFFBB8A0B), size: 16),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                    Text("TIN TỨC",style: TextStyle(fontSize: 25,color: Colors.green)),
+                    _TinTuc(
+                      image: "assets/image/new1.png",
+                      text1: "Thông báo về: \"Điều khoản và điều kiện chung"
+                          " về bảo vệ và xử lí dữ liệu cá nhân\"",
+                      text2: "11:00 - 20/12/2023",
+                      onpress: (){}
                     ),
                     Row(
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: SizedBox(
-                                        width: 200,
-                                        height: 80,
-                                        child: Image.asset(
-                                          "assets/image/new2.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Tin thị trường",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text("Hướng dẫn của Bộ Tài Chính về bảo"
-                                    " hiểm cháy, nổ bắt buộc",
-                                  style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16),maxLines: 3,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("11:00 - 20/12/2023",
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight(350)),),
-                                  ],
-                                ),
-                                TextButton.icon(
-                                  onPressed: () {
-                                  },
-                                  icon: Text(
-                                    "Xem thêm",
-                                    style: TextStyle(color: Color(0xFFBB8A0B)),
-                                  ),
-                                  label: Icon(Icons.arrow_forward, color: Color(0xFFBB8A0B), size: 16),
-                                ),
-                              ],
-                            ),
+                        Expanded(flex: 1,
+                          child: _TinTucSmall(
+                              image: "assets/image/new2.png",
+                              text1: "Hướng dẫn của Bộ Tài Chính về bảo"
+                                  " hiểm cháy, nổ bắt buộc",
+                              text2: "11:00 - 20/12/2023",
+                              onpress: (){}
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: SizedBox(
-                                        width: 200,
-                                        height: 80,
-                                        child: Image.asset(
-                                          "assets/image/new3.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Tin thị trường",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text("Hoàn tiền dến 10 triệu đồng khi dùng thẻ HDBank",
-                                  style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16),maxLines: 3,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("11:00 - 20/12/2023",
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight(350)),),
-                                  ],
-                                ),
-                                TextButton.icon(
-                                  onPressed: () {
-                                  },
-                                  icon: Text(
-                                    "Xem thêm",
-                                    style: TextStyle(color: Color(0xFFBB8A0B)),
-                                  ),
-                                  label: Icon(Icons.arrow_forward, color: Color(0xFFBB8A0B), size: 16),
-                                ),
-                              ],
-                            ),
+                        Expanded(flex: 1,
+                          child: _TinTucSmall(
+                              image: "assets/image/new3.png",
+                              text1: "Hoàn tiền dến 10 triệu đồng khi dùng thẻ HDBank",
+                              text2: "11:00 - 20/12/2023",
+                              onpress: (){}
                           ),
                         ),
                       ],
@@ -1124,10 +387,10 @@ class ContainerHome extends StatelessWidget{
                                 borderRadius: BorderRadiusGeometry.circular(1),
                               ),
                               side: BorderSide(
-                                  color: Color(0xFFBB8A0B)
+                                  color: AppColor.appButtonColor
                               )
                           ),
-                          child: Text("Xem thêm",style: TextStyle(fontSize: 20, color: Color(0xFFBB8A0B)),)),
+                          child: Text("Xem thêm",style: TextStyle(fontSize: 20, color: AppColor.appButtonColor),)),
                     ),
                     SizedBox(height: 100,)
                   ],
@@ -1342,7 +605,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     bool isSelected = _selectedIndex == index;
     bool isCenter = index == 2;
 
-    Color activeColor = const Color(0xFFBB8A0B);
+    Color activeColor =  AppColor.appButtonColor;
     Color inactiveColor = Colors.grey;
     return Expanded(
       child: InkWell(
@@ -1407,5 +670,198 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       ),
     );
   }
+
 }
+Widget _SanPhamBaoHiemTrucTuyen({
+  required String image,
+  required String title,
+  required String text,
+  required String price,
+  required onpress
+}){
+  return  Container(
+    margin: EdgeInsets.only(left: 10),
+    padding: EdgeInsets.all(5),
+    width: 200,
+    decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10)
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Image.asset(image, height: 150, width: 200, fit: BoxFit.fitWidth,),
+        Text(title, style: TextStyle(fontSize: 23,),),
+        Text(text, style: TextStyle(fontSize: 15, overflow: TextOverflow.ellipsis),),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: 'Chỉ từ ', style: TextStyle(color: Colors.grey, fontSize: 14)),
+              TextSpan(text: price, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16)),
+              TextSpan(text: 'VNĐ/năm', style: TextStyle(color: Colors.red, fontSize: 12)),
+            ],
+          ),
+        ),
+        OutlinedButton(onPressed: onpress,
+            style: OutlinedButton.styleFrom(
+                foregroundColor:  AppColor.appButtonColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(1),
+                ),
+                side: BorderSide(
+                    color: AppColor.appButtonColor
+                )
+            ),
+            child: Text("Mua ngay")),
+      ],
+    ),
+  );
+}
+Widget _ButtonXemThem({required VoidCallback onpress}){
+  return Container(
+    width: 180,
+    margin: EdgeInsets.only(top:20),
+    child: OutlinedButton(
+        onPressed: onpress,
+        style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(5),
+            ),
+            side: BorderSide(color: AppColor.appButtonColor)
+        ),
+        child: Row(
+          children: [
+            Text("Xem thêm", style: TextStyle(fontSize: 20, color: AppColor.appButtonColor)),
+            const SizedBox(width: 15),
+            Icon(Icons.arrow_forward_ios, size: 18, color: AppColor.appButtonColor),
+          ],
+        )
+    ),
+  );
+}
+Widget _Title({required String text}){
+  return Container(
+    alignment: Alignment.center,
+    margin: EdgeInsets.only(top:30),
+    child: Text(text,
+      style: TextStyle(fontSize: 28, fontWeight: FontWeight(500), color: Colors.white))
+  );
+}
+Widget _SanPhamBaoHiemTrucTuyenSmall({
+  required String image,
+  required String title
+}){
+  return Container(
+    margin: EdgeInsets.only(left: 10,top: 10),
+    padding: EdgeInsets.all(5),
+    width: 200,
+    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Image.asset(image, height: 150, width: 200, fit: BoxFit.fitWidth),
+        Text(title, style: TextStyle(fontSize: 23)),
+      ],
+    ),
+  );
+}
+Widget _TinTuc({required String image, required String text1, required String text2, onpress}){
+  return Container(
+    margin: EdgeInsets.all(10),
+    padding: EdgeInsets.all(10),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
+    child: Column(
+      children: [
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(image, width: double.infinity, fit: BoxFit.cover)),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                  ),
+                ),
+                child: Text("Tin thị trường", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+        ),
+        Text(text1, style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16),maxLines: 2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(text2, style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16, fontWeight: FontWeight(350)),maxLines: 2),
+            TextButton.icon(
+              onPressed: onpress,
+              icon: Text("Xem thêm", style: TextStyle(color: AppColor.appButtonColor)),
+              label: Icon(Icons.arrow_forward, color: AppColor.appButtonColor, size: 16),
+            ),
+          ]
+        )
+      ],
+    )
+  );
+}
+Widget _TinTucSmall({required String image, required String text1, required String text2, onpress}){
+  return Container(
+    margin: EdgeInsets.all(10),
+    padding: EdgeInsets.all(10),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white
+    ),
+    child: Column(
+      children: [
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(image, width: double.infinity, fit: BoxFit.cover),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                  ),
+                ),
+                child: Text("Tin thị trường", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Text(text1,
+          style: TextStyle(overflow: TextOverflow.ellipsis,fontSize: 16),maxLines: 3),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(text2, style: TextStyle(fontSize: 16, fontWeight: FontWeight(350))),
+          ],
+        ),
+        TextButton.icon(
+          onPressed: onpress,
+          icon: Text("Xem thêm", style: TextStyle(color: AppColor.appButtonColor)),
+          label: Icon(Icons.arrow_forward, color: AppColor.appButtonColor, size: 16),
+        )
+      ]
+    )
+  );
+}
+
 

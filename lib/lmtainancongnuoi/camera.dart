@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
+import '../global/app_color.dart';
+
 class ScanCameraScreen extends StatefulWidget {
   const ScanCameraScreen({super.key});
 
@@ -107,7 +109,7 @@ class _ScanCameraScreenState extends State<ScanCameraScreen> {
                     padding: const EdgeInsets.all(4),
                     child: Container(
                       decoration: const BoxDecoration(
-                        color: Color(0xFFB8860B), // Màu vàng đồng của bạn
+                        color: AppColor.appButtonColor,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.camera_alt, color: Colors.white, size: 28),

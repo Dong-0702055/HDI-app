@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'global/app_color.dart';
+
 class HomeUser extends StatelessWidget {
   const HomeUser({super.key});
 
@@ -69,7 +71,54 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
               const SizedBox(width: 10),
-              const CircleAvatar(radius: 20, backgroundImage: AssetImage("assets/image/new1.png")),
+              PopupMenuButton<String>(
+                offset: const Offset(0, 50),
+                onSelected: (value) {
+                  if (value == "profile") {
+                    print("Hồ sơ");
+                  } else if (value == "setting") {
+                    print("Cài đặt");
+                  } else if (value == "logout") {
+                    print("Đăng xuất");
+                  }
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: "profile",
+                    child: Row(
+                      children: [
+                        Icon(Icons.person),
+                        SizedBox(width: 10),
+                        Text("Hồ sơ"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "setting",
+                    child: Row(
+                      children: [
+                        Icon(Icons.settings),
+                        SizedBox(width: 10),
+                        Text("Cài đặt"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "logout",
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout),
+                        SizedBox(width: 10),
+                        Text("Đăng xuất"),
+                      ],
+                    ),
+                  ),
+                ],
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage("assets/image/new1.png"),
+                ),
+              )
             ],
           ),
         ),
@@ -174,7 +223,7 @@ class _CategoryBarState extends State<CategoryBar> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFFBB8A0B) : Colors.grey[200],
+                color: isSelected ?  AppColor.appButtonColor : Colors.grey[200],
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -245,7 +294,7 @@ class ServiceGridSection1 extends StatelessWidget {
           ),
           child: Icon(
             service.icon,
-            color: const Color(0xFFBB8A0B),
+            color: AppColor.appButtonColor,
             size: 32,
           ),
         ),
@@ -311,7 +360,7 @@ class ServiceGridSection2 extends StatelessWidget {
           ),
           child: Icon(
             service.icon,
-            color: const Color(0xFFBB8A0B),
+            color: AppColor.appButtonColor,
             size: 32,
           ),
         ),
@@ -428,7 +477,7 @@ class OfferCard extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFBB8A0B),
+                          color: AppColor.appButtonColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Text(
@@ -458,13 +507,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 
   Widget _buildBottomItem(int index, String label, String assetPath) {
     bool isSelected = _selectedIndex == index;
-    // Kiểm tra nếu là nút giữa (index 2 - Thao tác)
     bool isCenter = index == 2;
 
-    Color activeColor = const Color(0xFFBB8A0B);
+    Color activeColor = AppColor.appButtonColor;
     Color inactiveColor = Colors.grey;
 
-    return Expanded( // BẮT BUỘC: Để 5 nút chia đều màn hình, không bị tràn
+    return Expanded(
       child: InkWell(
         onTap: () {
           setState(() {
@@ -472,15 +520,13 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           });
         },
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Để column không chiếm hết chiều dọc
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 5),
             Image.asset(
               assetPath,
-              // Nút giữa cho to hơn một chút (32), nút thường (24)
               width: isCenter ? 32 : 24,
               height: isCenter ? 32 : 24,
-              // Nhuộm màu: Nút giữa nếu không muốn nhuộm thì bỏ dòng color đi
               color: isSelected ? activeColor : (isCenter ? null : inactiveColor),
               colorBlendMode: isCenter && !isSelected ? null : BlendMode.srcIn,
               fit: BoxFit.contain,
@@ -489,12 +535,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             Text(
               label,
               style: TextStyle(
-                fontSize: 11, // Giảm nhẹ font size cho iPhone 13 mini
+                fontSize: 11,
                 color: isSelected ? activeColor : inactiveColor,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis, // Nếu tên quá dài thì hiện ...
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 5),
           ],

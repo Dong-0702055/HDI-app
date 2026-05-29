@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../global/app_color.dart';
 class CauhoiTaiNanConNguoi extends StatefulWidget {
   @override
   State<CauhoiTaiNanConNguoi> createState() => _CauhoiTaiNanConNguoiState();
@@ -7,17 +8,16 @@ class CauhoiTaiNanConNguoi extends StatefulWidget {
 
 class _CauhoiTaiNanConNguoiState extends State<CauhoiTaiNanConNguoi> {
   int? _openedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     double fixedHeight = MediaQuery.of(context).size.height * 0.9;
-
     return Container(
       height: fixedHeight,
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: isDark ? AppColor.containerDark : AppColor.containerLight,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         children: [
@@ -37,12 +37,12 @@ class _CauhoiTaiNanConNguoiState extends State<CauhoiTaiNanConNguoi> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(width: 48), 
-                const Text(
+                Text(
                   "Câu hỏi",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: isDark ? AppColor.textDark : AppColor.textLight),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, size: 28),
+                  icon: Icon(Icons.close, size: 28,color: AppColor.iconColor,),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -71,17 +71,16 @@ class _CauhoiTaiNanConNguoiState extends State<CauhoiTaiNanConNguoi> {
     );
   }
 
-  // Hàm xây dựng từng item câu hỏi
   Widget _buildQuestionTile(int index, String question, String answer) {
     bool isOpen = _openedIndex == index;
-
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? AppColor.containerDark : AppColor.containerLight,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isOpen ? const Color(0xFFBB8A0B) : Colors.grey.shade200,
+          color: isOpen ? AppColor.appButtonColor : Colors.grey.shade200,
           width: isOpen ? 1.5 : 1,
         ),
       ),
@@ -90,13 +89,7 @@ class _CauhoiTaiNanConNguoiState extends State<CauhoiTaiNanConNguoi> {
         child: ExpansionTile(
           key: GlobalKey(),
           initiallyExpanded: isOpen,
-          title: Text(
-            question,
-            style: TextStyle(
-              fontSize: 16,
-              color: Color(0xFF1E552A),
-            ),
-          ),
+          title: Text(question, style: TextStyle(fontSize: 16, color: Color(0xFF1E552A), fontWeight: FontWeight.w500)),
           onExpansionChanged: (expanded) {
             setState(() {
               _openedIndex = expanded ? index : null;
@@ -108,15 +101,9 @@ class _CauhoiTaiNanConNguoiState extends State<CauhoiTaiNanConNguoi> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("✦ ", style: TextStyle(color: Colors.black54)),
+                  const Text("✦ ", style: TextStyle(color:Color(0xFF1E552A))),
                   Expanded(
-                    child: Text(
-                      answer,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF2D2D2D),
-                        height: 1.5,
-                      ),
+                    child: Text(answer, style: TextStyle(fontSize: 14, height: 1.5, color: isDark ? AppColor.textDark : AppColor.textLight),
                     ),
                   ),
                 ],

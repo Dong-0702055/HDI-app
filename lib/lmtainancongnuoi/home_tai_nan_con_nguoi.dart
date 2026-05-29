@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_hdi/lmtainancongnuoi/dotuoi_tai_nan_con_nguoi.dart';
+import '../global/app_color.dart';
 import 'product_tai_nan_con_nguoi.dart';
 import 'boithuong_tai_nan_con_nguoi.dart';
 import 'cauhoi_tai_nan_con_nguoi.dart';
+import '../widgets/widgets.dart';
+import '../home_custom.dart';
 class HomeTaiNanConNguoi extends StatelessWidget{
   const HomeTaiNanConNguoi({super.key});
   @override
@@ -27,14 +30,37 @@ class BodyTaiNanConNguoi extends StatefulWidget {
 class ImageHome extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Image(image: AssetImage("assets/image/tai_nan_con_nguoi.png"),
-          width: double.infinity,
-          fit: BoxFit.cover,
-        )
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return Stack(
+      children: [
+        Container(
+          child: Image(image: AssetImage("assets/image/tai_nan_con_nguoi.png"),
+            width: double.infinity,
+            fit: BoxFit.cover,
+          )
+      ),
+        Positioned(
+          top: 40,
+          left: 16,
+          child: Container(
+            decoration: BoxDecoration(
+              color:  isDark ? AppColor.containerDark : AppColor.containerLight,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+              color: AppColor.iconColor,
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context)=>HomeCustom()));
+              },
+            ),
+          ),
+        ),
+      ]
     );
   }
-
 }
 class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
   final PageController _pageController = PageController();
@@ -53,7 +79,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
   ];
   @override
   Widget build(BuildContext context) {
-    const goldColor = Color(0xFFA87E23);
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Transform.translate(
         offset: const Offset(0, -7),
       child: Column(
@@ -64,7 +90,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
+              color: isDark ? AppColor.containerDark : AppColor.containerLight,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
@@ -87,7 +113,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
                     children: [
                       _buildPageOne(),
                       _buildPageTwo(),
-                      _buildPageThree(),
+                      _buildPageThree(isDark),
                     ],
                   ),
                 ),
@@ -112,7 +138,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
                           height: 8,
                           width: isActive ? 30 : 8,
                           decoration: BoxDecoration(
-                            color: isActive ? goldColor : Colors.grey[300],
+                            color: isActive ? AppColor.appButtonColor : Colors.grey[300],
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -191,24 +217,15 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
             width: double.infinity,
             margin: EdgeInsets.only(top: 15),
             padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 20),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Color(0xFFA87E23),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(10),
-                ),
-                padding: EdgeInsets.all(15)
-              ),
-                onPressed: (){
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => ChonDoTuoiModal(),
-                  );
-                },
-                child: Text("Tham gia ngay",style: TextStyle(fontSize: 16,color: Colors.white))
-            ),
+            child: TextButtonApp("Tham gia ngay", (){
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => ChonDoTuoiModal(),
+              );
+            }
+            )
           )
         ],
       ),
@@ -238,15 +255,9 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
           ],
         ),
         const SizedBox(height: 8),
-        // Nét đứt
         Row(
-          children: List.generate(
-            100,
-                (index) => Expanded(
-              child: Container(
-                color: index % 2 == 0 ? Colors.grey.shade300 : Colors.transparent,
-                height: 1,
-              ),
+          children: List.generate(100, (index) => Expanded(
+              child: Container(color: index % 2 == 0 ? Colors.grey.shade300 : Colors.transparent, height: 1),
             ),
           ),
         ),
@@ -277,8 +288,8 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextButton(onPressed: (){}, child: Text("Xem chi tiết sản phẩm", style: TextStyle(color: Color(0xFFBB8A0B), fontSize: 16))),
-                const Icon(Icons.keyboard_arrow_down_outlined, color: Color(0xFFBB8A0B))
+                TextButton(onPressed: (){}, child: Text("Xem chi tiết sản phẩm", style: TextStyle(color: AppColor.appButtonColor, fontSize: 16))),
+                const Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.appButtonColor)
               ],
             ),
           ),
@@ -287,6 +298,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
     );
   }
   Widget _buildBenefitRow(String content) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -295,7 +307,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
         Expanded(
           child: Text(
             content,
-            style: const TextStyle(fontSize: 16, height: 1.4),
+            style: TextStyle(fontSize: 16, height: 1.4, color: isDark ? AppColor.textDark: AppColor.textLight),
           ),
         ),
       ],
@@ -303,6 +315,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
   }
   // Widget nội dung cho Trang 2
   Widget _buildPageTwo() {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -324,13 +337,13 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
         const SizedBox(height: 20),
         RichText(
           text: TextSpan(
-            style: const TextStyle(color: Colors.black, fontSize: 14),
+            style: TextStyle(fontSize: 14,color: isDark ? AppColor.textDark : AppColor.textLight),
             children: [
               const TextSpan(text: "Quy tắc, điều khoản bảo hiểm. Tham khảo "),
               TextSpan(
                 text: "Tại đây",
                 style: const TextStyle(
-                  color: Color(0xFFBB8A0B),
+                  color: AppColor.appButtonColor,
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline,
                 ),
@@ -343,6 +356,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
   }
 // Hàm bổ trợ để hiển thị Tiêu đề đậm + Nội dung chi tiết bên dưới
   Widget _buildDetailRow(String title, String content) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -363,7 +377,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
               const SizedBox(height: 4),
               Text(
                 content,
-                style: const TextStyle(fontSize: 15, color: Colors.black87),
+                style: TextStyle(fontSize: 15,color: isDark ? AppColor.textDark: AppColor.textLight),
               ),
             ],
           ),
@@ -372,7 +386,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
     );
   }
   // Widget nội dung cho Trang 3
-  Widget _buildPageThree() {
+  Widget _buildPageThree(bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -393,7 +407,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
             Expanded(
               child: RichText(
                 text: TextSpan(
-                  style: const TextStyle(fontSize: 16, color: Colors.black, height: 1.4),
+                  style: TextStyle(fontSize: 16, height: 1.4, color: isDark ? AppColor.textDark: AppColor.textLight ),
                   children: [
                     const TextSpan(
                       text: "Giải quyết chi trả quyền lợi bảo hiểm kịp thời. Hãy để HDI là chỗ dựa tài chính vững chắc, bảo vệ bạn và người thân của bạn. ",
@@ -401,7 +415,7 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
                     TextSpan(
                       text: "Xem chi tiết",
                       style: const TextStyle(
-                        color: Color(0xFFBB8A0B),
+                        color: AppColor.appButtonColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -415,13 +429,14 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
     );
   }
   Widget _buildClaimServiceButton({image,text1,onTap}) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? AppColor.containerDark : AppColor.containerLight,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -434,29 +449,13 @@ class _BodyTaiNanConNguoiState extends State<BodyTaiNanConNguoi>{
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              image,
-              width: 40,
-              height: 40,
-            ),
+            Image.asset(image, width: 40, height: 40,),
             const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                text1,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF424242),
-                ),
-              ),
+            Expanded(child: Text(text1, maxLines: 2, overflow: TextOverflow.ellipsis,
+                style:TextStyle(fontSize: 14, color: isDark ? AppColor.textDark : AppColor.textLight))
             ),
             const SizedBox(width: 20),
-            const Icon(
-              Icons.arrow_forward,
-              color: Color(0xFF757575),
-              size: 20,
-            ),
+            Icon(Icons.arrow_forward, size: 20, color: AppColor.iconColor,)
           ],
         ),
       ),

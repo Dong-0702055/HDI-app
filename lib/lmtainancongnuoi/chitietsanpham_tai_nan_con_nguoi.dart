@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_hdi/lmtainancongnuoi/thongtinnguoibaohiem_tai_nan_con_nguoi.dart';
+import '../global/app_color.dart';
+import '../widgets/widgets.dart';
 import 'goibaohiem_tai_nan_con_nguoi.dart';
 class ChitietsanphamTaiNanConNguoi extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class _ChitietsanphamTaiNanConNguoiState extends State<ChitietsanphamTaiNanConNg
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarHome(),
+      appBar: AppBarHome("Chi tiết quyền lợi các gói",duongDan: GoibaohiemTaiNanConNguoi()),
       body: SingleChildScrollView(
         child: ContentChiTietSanPham(
           onChonGoi: (goi){
@@ -28,39 +30,6 @@ class _ChitietsanphamTaiNanConNguoiState extends State<ChitietsanphamTaiNanConNg
     );
   }
 
-}
-class AppBarHome extends StatelessWidget implements PreferredSizeWidget{
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF0A7029),
-              Color(0xFF055E20),
-            ],
-          ),
-        ),
-      ),
-      title: const Text(
-        "Chi tiết quyền lợi các gói",
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-      centerTitle: true,
-      leading: IconButton(onPressed: (){
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context)=> GoibaohiemTaiNanConNguoi()));
-      }, icon: Icon(Icons.arrow_back_ios_sharp),color: Colors.white,),
-      elevation: 1,
-    );
-  }
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(60);
 }
 class ContentChiTietSanPham extends StatefulWidget {
   final Function(Map<String, dynamic>) onChonGoi;
@@ -131,15 +100,16 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
     });
   }
   void hienThiDanhSachGoi() {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
         return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          decoration: BoxDecoration(
+            color: isDark ? AppColor.containerDark : AppColor.containerLight,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
@@ -157,13 +127,10 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(width: 24),
-                  const Text(
-                    "Gói bảo hiểm",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
+                  SizedBox(width: 24),
+                  Text("Gói bảo hiểm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: isDark ? AppColor.textDark : AppColor.textLight)),
                   IconButton(
-                    icon: const Icon(Icons.close),
+                    icon: Icon(Icons.close, color: Colors.grey.shade100),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -180,31 +147,21 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
                     onTap: () {
                       setState(() {
                         if (viTriDangChon == 1) {
-                          goi1 = goi;
-                          widget.onChonGoi(goi1!);
+                          goi1 = goi;widget.onChonGoi(goi1!);
                         } else {
-                          goi2 = goi;
-                          widget.onChonGoi(goi2!);
-                        }
-                      });
+                          goi2 = goi;widget.onChonGoi(goi2!);
+                        }});
                       Navigator.pop(context);
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 12),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDark ? AppColor.containerDark : AppColor.containerLight,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: isSelected ? Colors.orange : Colors.grey[200]!,
-                          width: 1.5,
-                        ),
+                        border: Border.all(color: isSelected ? Colors.orange : Colors.grey[200]!, width: 1.5),
                         boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 5,
-                            offset: const Offset(0, 2),
-                          )
+                          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))
                         ],
                       ),
                       child: Row(
@@ -218,25 +175,13 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  goi["title"],
-                                  style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-                                ),
-                                Text(
-                                  goi["status"],
-                                  style: TextStyle(color: Colors.grey[600], fontSize: 13),
-                                ),
+                                Text(goi["title"], style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16, color: isDark ? AppColor.textDark : AppColor.textLight)),
+                                Text(goi["status"], style: TextStyle(fontSize: 13, color: isDark ? AppColor.textDark : AppColor.textLight)),
                               ],
                             ),
                           ),
                           // Giá tiền
-                          Text(
-                            goi["price"],
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
+                          Text(goi["price"], style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 15),
                           ),
                         ],
                       ),
@@ -253,6 +198,7 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
   }
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
       child: Column(
@@ -264,8 +210,8 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
                 onTap: hienThiDanhSachGoi,
                 child: Row(
                   children: [
-                    Text("Chọn gói so sánh khác  ",style: TextStyle(fontSize: 14,color: Color(0xFFBB8A0B))),
-                    Icon(Icons.keyboard_arrow_down_outlined,color: Color(0xFFBB8A0B))
+                    Text("Chọn gói so sánh khác  ",style: TextStyle(fontSize: 14,color: AppColor.appButtonColor)),
+                    Icon(Icons.keyboard_arrow_down_outlined,color: AppColor.appButtonColor)
                   ],
                 ),
               ),
@@ -275,21 +221,15 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
-                onTap: (){
-                  setState(() {
-                    viTriDangChon = 1;
-                  });
+                onTap: (){setState(() {viTriDangChon = 1;});
                   widget.onChonGoi(goi1!);
                 },
                 child: Container(
                   decoration: BoxDecoration(
+                    color: isDark ? AppColor.containerDark : AppColor.containerLight,
                     border: Border.all(
-                      color: viTriDangChon == 1
-                          ? Colors.orange
-                          : Colors.transparent,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
+                      color: viTriDangChon == 1 ? Colors.orange : Colors.transparent, width: 2),
+                      borderRadius: BorderRadius.circular(10),
                   ),
                   child: _GoiSoSanh(
                     textTitle: goi1!["title"],
@@ -300,19 +240,12 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
                 ),
               ),
               GestureDetector(
-                onTap: (){
-                  setState(() {
-                    viTriDangChon = 2;
-                  });
-                  widget.onChonGoi(goi2!);
-                },
+                onTap: (){setState(() {viTriDangChon = 2;});widget.onChonGoi(goi2!);},
                 child: Container(
                   decoration: BoxDecoration(
+                    color: isDark ? AppColor.containerDark : AppColor.containerLight,
                     border: Border.all(
-                      color: viTriDangChon == 2
-                          ? Colors.orange
-                          : Colors.transparent,
-                      width: 2,
+                      color: viTriDangChon == 2 ? Colors.orange : Colors.transparent, width: 2,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -332,425 +265,168 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 10,
-                  offset: Offset(0, 4),
-                )
+                BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 10, offset: Offset(0, 4))
               ],
             ),
             child: Column(
               children: [
+                _RowTieuDeLonBoGoc(title: "I. Tử vong, thương tật thân thể do tai nạn"),
+                _RowSoSanh(text1:goi1!["price2"],text2: goi2!["price2"] ),
+                _RowTieuDeNho(title:"1. Tử vong thương tật toàn bộ vĩnh viễn" ),
+                _RowSoSanh(text1:"Tối đa số tiền bảo hiểm",text2: "Tối đa số tiền bảo hiểm" ),
+                _RowTieuDeNho(title:"2. Thương tật bộ phận vĩnh viễn" ),
+                _RowSoSanh(text1:"Theo bảng tí lệ trả tiền bảo hiểm thương tật",text2: "Theo bảng tí lệ trả tiền bảo hiểm thương tật" ),
+                _RowTieuDeNho(title:"3. Thương tật tạm thời" ),
+                _RowSoSanh(text1:"Trả toàn bộ các chi phí hợp lý phát sinh cho việc điều trị thương tật",text2: "Trả toàn bộ các chi phí\nhợp lý phát sinh cho việc\nđiều trị thương tật" ),
                 Container(
-                  width: double.infinity,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFD8FFE4),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                    Text("I. Tử vong, thương tật thân thể do tai nạn",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),)
-                  ])
-                  ),
-                Container(
-                  height: 44,
+                  padding: EdgeInsets.all(10),
+                  color: isDark ? AppColor.containerDark : AppColor.containerLight,
                   width: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                        child: Center(
-                          child: Text(
-                            goi1!["price2"],
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Container(
-                        width: 1,
-                        height: 44,
-                        color: Colors.grey,
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            goi2!["price2"],
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-                Text("1. Tử vong thương tật toàn bộ vĩnh viễn",style: TextStyle(fontSize: 14,color: Color(0xFF575757),)),
-                Container(
-                  height: 44,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Tối đa số tiền bảo hiểm",style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500),),
-                        ],
-                      ),
-                      Container(
-                        width: 1,
-                        height: 44,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Tối đa số tiền bảo hiểm",style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500),),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Text("2. Thương tật bộ phận vĩnh viễn",style: TextStyle(fontSize: 14,color: Color(0xFF575757),)),
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Theo bảng tí lệ trả\ntiền bảo hiểm thương tật",textAlign: TextAlign.center,style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500),),
-                        ],
-                      ),
-                      Container(
-                        width: 1,
-                        height: 35,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Theo bảng tí lệ trả\ntiền bảo hiểm thương tật",textAlign: TextAlign.center,style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500),),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Text("3. Thương tật tạm thời",style: TextStyle(fontSize: 14,color: Color(0xFF575757),)),
-                Container(
-                  height: 70,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Trả toàn bộ các chi phí\n"
-                              "hợp lý phát sinh cho việc\n"
-                              " điều trị thương tật",textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500,),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 1,
-                        height: 70,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Trả toàn bộ các chi phí\n"
-                              "hợp lý phát sinh cho việc\n"
-                              "điều trị thương tật",textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RichText(
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                              text: TextSpan(style: TextStyle(fontSize: 14),
+                                children: [
+                                  TextSpan(text: "Tiền bồi dưỡng = ",
+                                      style: TextStyle(color: isDark ? AppColor.textDark: AppColor.textLight)),
+                                  TextSpan(text: "0,1% × Số tiền bảo hiểm × Số ngày nằm viện (Tối đa không vượt quá 180 ngày/vụ)",style: TextStyle(color: Color(0xFFC58B00))),
+                                ],
                               ),
-                              children: [
-                                TextSpan(
-                                  text: "Tiền bồi dưỡng = ",
-                                ),
-                                TextSpan(
-                                  text: "0,1% ×\n",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "Số tiền bảo hiểm ×\n",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "Số ngày nằm viện\n ",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "(Tối đa không vượt quá 180\nngày/vụ)",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                      Container(
-                        width: 1,
-                        height: 100,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
+                      Container(width: 1, height: 100, color: Colors.grey),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            RichText(
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                              text: TextSpan(style: TextStyle(fontSize: 14),
+                                children: [
+                                  TextSpan(text: "Tiền bồi dưỡng = ",
+                                      style: TextStyle(
+                                          color: isDark ? AppColor.textDark: AppColor.textLight
+                                      )),
+                                  TextSpan(text: "0,1% × Số tiền bảo hiểm × Số ngày nằm viện (Tối đa không vượt quá 180 ngày/vụ)",style: TextStyle(color: Color(0xFFC58B00))),
+                                ],
                               ),
-                              children: [
-                                TextSpan(
-                                  text: "Tiền bồi dưỡng = ",
-                                ),
-                                TextSpan(
-                                  text: "0,1% ×\n",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "Số tiền bảo hiểm ×\n",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "Số ngày nằm viện\n ",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "(Tối đa không vượt quá 180\nngày/vụ)",
-                                  style: TextStyle(
-                                    color: Color(0xFFC58B00),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(" Trong mọi trường hợp\n"
-                              "tổng số tiền chi trả \n"
-                              "không vượt tỷ lệ %\n"
-                              " thương tật trong Bảng\n"
-                              " tỷ lệ trả tiền bảo hiểm",textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500,),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 1,
-                        height: 100,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(" Trong mọi trường hợp\n"
-                              "tổng số tiền chi trả \n"
-                              "không vượt tỷ lệ %\n"
-                              " thương tật trong Bảng\n"
-                              " tỷ lệ trả tiền bảo hiểm",textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14,color: Color(0xFF2D2D2D),fontWeight: FontWeight.w500,),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                    width: double.infinity,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFD8FFE4),
-                    ),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("II. Trợ cấp trong thời gian điều trị tai nạn",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),)
-                        ])
-                ),
-                Container(
-                  height: 44,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            goi1!["price3"],
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
+                            )
+                          ],
                         ),
                       ),
-
-                      Container(
-                        width: 1,
-                        height: 44,
-                        color: Colors.grey,
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            goi2!["price3"],
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-
                     ],
                   ),
                 ),
-                Text("1. Quyền lợi một ngày nằm viện",style: TextStyle(fontSize: 14,color: Color(0xFF575757),)),
-                Container(
-                  height: 44,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("244.000VND"),
-                        ],
-                      ),
-                      Container(
-                        width: 1,
-                        height: 44,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("244.000VND"),
-                        ],
-                      ),
-                    ],
-                  ),
+                _RowSoSanh(
+                    text1:"Trong mọi trường hợp tổng số tiền chi trả  không vượt tỷ lệ % thương tật trong bảng tỷ lệ trả tiền bảo hiểm",
+                    text2: "Trong mọi trường hợp tổng số tiền chi trả  không vượt tỷ lệ % thương tật trong bảng tỷ lệ trả tiền bảo hiểm"
                 ),
-                Container(
-                    width: double.infinity,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFD8FFE4),
-                    ),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("II. Mở rộng BH ngộ độc thức ăn, đồ uống\nhít phải hơi độc, khí độc, chất độc",textAlign: TextAlign.center,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),)
-                        ])
-                ),
-                Container(
-                  height: 44,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("50.000.000VND"),
-                        ],
-                      ),
-                      Container(
-                        width: 1,
-                        height: 44,
-                        color: Colors.grey,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("50.000.000VND"),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                _RowTieuDeLon(title:"II. Trợ cấp trong thời gian điều trị tai nạn"),
+                _RowSoSanh(text1:goi1!["price3"],text2: goi2!["price3"] ),
+                _RowTieuDeNho(title:"1. Quyền lợi một ngày nằm viện"),
+                _RowSoSanh(text1: "244.000VND",text2: "244.000VND" ),
+                _RowTieuDeLon(title:"III. Mở rộng BH ngộ độc thức ăn, đồ uống hít phải hơi độc, khí độc, chất độc"),
+                _RowSoSanh(text1: "50.000.000VND",text2: "50.000.000VND"),
               ],
             ),
           )
         ],
       ),
     );
+
+  }
+  Widget _RowSoSanh({text1,text2}){
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      width: double.infinity,
+      color: isDark ? AppColor.containerDark : AppColor.containerLight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: Text(text1, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,maxLines: 5,
+                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: isDark ? AppColor.textDark: AppColor.textLight),
+                ),
+              ),
+            ),
+          ),
+          Container(width: 1, height: 44, color: Colors.grey),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: Text(text2, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,maxLines: 5,
+                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: isDark ? AppColor.textDark: AppColor.textLight),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _RowTieuDeLonBoGoc({title}){
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+        width: double.infinity,
+        height: 44,
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF1E1E1E) : Color(0xFFD8FFE4),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+        ),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: isDark ? AppColor.textDark: AppColor.textLight))
+            ])
+    );
+  }
+  Widget _RowTieuDeLon({title}){
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1E1E1E) : Color(0xFFD8FFE4),
+          ),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Text(title,textAlign: TextAlign.center,overflow: TextOverflow.ellipsis,maxLines: 2,
+                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: isDark ? AppColor.textDark: AppColor.textLight)))
+              ])
+      );
+
+  }
+  Widget _RowTieuDeNho({title}){
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return
+        Container(
+          width: double.infinity,
+            decoration: BoxDecoration(
+                color: isDark ? AppColor.containerDark: AppColor.containerLight
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(title,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: isDark ? AppColor.textDark: AppColor.textLight)),
+              ],
+            )
+        );
   }
   Widget _GoiSoSanh({
     required textTitle,
@@ -758,77 +434,43 @@ class _ContentChiTietSanPhamState extends State<ContentChiTietSanPham>{
     required textPrice,
     required bool isSelected,
   }) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 20,
-            right: 20,
-          ),
+          padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20,),
           height: 100,
           width: 180,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
+              color: isDark ? AppColor.containerDark: AppColor.containerLight,
             boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.15),
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              )
+              BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 10, offset: Offset(0, 4))
             ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                textTitle,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0XFF090A0B),
-                ),
-              ),
+              Text(textTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
               SizedBox(height: 7),
-              Text(
-                textStatus,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF575757),
-                ),
-              ),
+              Text(textStatus, style: TextStyle(fontSize: 14)),
               SizedBox(height: 7),
-              Text(
-                textPrice,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF1E552A),
-                ),
+              Text(textPrice, style: TextStyle(fontSize: 14),
               ),
             ],
           ),
         ),
         if (isSelected)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              width: 30,
-              height: 30,
+          Positioned(top: 0, right: 0,
+            child: Container(width: 30, height: 30,
               decoration: BoxDecoration(
-                color: Color(0xFFBB8A0B),
+                color: AppColor.appButtonColor,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(8),
                   bottomLeft: Radius.circular(100),
                 ),
               ),
-              child: Icon(
-                Icons.check,
-                size: 16,
-                color: Colors.white,
-              ),
+              child: Icon(Icons.check, size: 16, color: Colors.white),
             ),
           ),
       ],
@@ -843,21 +485,13 @@ class BottomMuaHang extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 10,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       height: 80,
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-            offset: Offset(0, -2),
-          )
-        ],
+        color: isDark ? AppColor.containerDark : AppColor.containerLight,
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -2))],
       ),
       child: Row(
         children: [
@@ -868,41 +502,24 @@ class BottomMuaHang extends StatelessWidget {
               children: [
                 RichText(
                   text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(fontSize: 14,color: isDark ? AppColor.textDark: AppColor.textLight),
                     children: [
-                      TextSpan(
-                        text: "Gói bảo hiểm: ",
-                      ),
+                      TextSpan(text: "Gói bảo hiểm: "),
                       TextSpan(
                         text: goiDangMua?["title"] ?? "",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: 5),
                 RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
+                  text: TextSpan(style: TextStyle(fontSize: 14, color: isDark ? AppColor.textDark: AppColor.textLight),
                     children: [
-                      TextSpan(
-                        text: "Phí bảo hiểm: ",
-                      ),
+                      TextSpan(text: "Phí bảo hiểm: "),
                       TextSpan(
                         text: goiDangMua?["price"] ?? "",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -911,34 +528,14 @@ class BottomMuaHang extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ThongtinnguoibaohiemTaiNanConNguoi(
-                    sanPham: goiDangMua!,
-                  ),
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFFC58B00),
-              padding: EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 15,
+          TextButtonApp("Mua ngay", () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ThongtinnguoibaohiemTaiNanConNguoi(sanPham: goiDangMua!),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: Text(
-              "Mua ngay",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
+            );
+          })
         ],
       ),
     );
